@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+@keyframes pulse {
+  0% {
+    transform: scale(1); /* Initial size */
+  }
+  50% {
+    transform: scale(1.2); /* Enlarged size at the midpoint */
+  }
+  100% {
+    transform: scale(1); /* Return to original size */
+  }
+}
+
+.pulse {
+  animation: pulse 1.5s ease-in-out infinite; /* Apply pulsing animation */
+}
+
