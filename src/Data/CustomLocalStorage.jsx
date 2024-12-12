@@ -1,6 +1,9 @@
 export default class CustomLocalStorage {
   static get(key) {
-    return JSON.parse(localStorage.getItem(key));
+    let res = JSON.parse(localStorage.getItem(key));
+
+    if (res != null) return res;
+    return [];
   }
 
   static set(key, value) {
@@ -13,7 +16,7 @@ export default class CustomLocalStorage {
   static clear() {
     localStorage.clear();
   }
- 
+
   static update(key, updatedTodo) {
     const todos = JSON.parse(localStorage.getItem(key)) || [];
     const newTodos = todos.map((todo) =>
@@ -21,5 +24,4 @@ export default class CustomLocalStorage {
     );
     localStorage.setItem(key, JSON.stringify(newTodos));
   }
-
 }

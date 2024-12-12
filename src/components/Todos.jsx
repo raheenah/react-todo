@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import CustomLocalStorage from "../Data/CustomLocalStorage";
 const TodosList = () => {
   const [todos, setTodos] = useState(CustomLocalStorage.get("todos") || []);
@@ -26,6 +26,7 @@ const TodosList = () => {
   const fetchTodos = useCallback(async () => {
     try {
       let localTodos = CustomLocalStorage.get("todos");
+      console.log(localTodos, "localTodos");
       if (localTodos.length > 0) {
         setTodos(CustomLocalStorage.get("todos"));
         setTotalPages(Math.ceil(localTodos.length / todosPerPage));
@@ -236,7 +237,7 @@ const TodosList = () => {
               ...todo,
               title: editedTitle,
               completed: editedStatus,
-            userId: editedUser,
+              userId: editedUser,
               id: id,
             }
           : todo
