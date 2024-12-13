@@ -1,5 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import CustomLocalStorage from "../Data/CustomLocalStorage";
+// import { useParams } from "react-router-dom";
+import { NavLink } from "react-router-dom"
+// import { Link } from "react-router-dom";
 const TodosList = () => {
   const [todos, setTodos] = useState(CustomLocalStorage.get("todos") || []);
   const [currentPage, setCurrentPage] = useState(1);
@@ -9,9 +12,11 @@ const TodosList = () => {
   const [nextButtonStyle, setNextButtonStyle] = useState({});
   const [lastPageButtonStyle, setlastPageButtonStyle] = useState({});
   const [firstPageButtonStyle, setfirstPageButtonStyle] = useState({});
+  const [paginatedList, setPaginatedList] = useState([]);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
+  const [filterUser, setFilterUser] = useState("all");
   const [showModal, setShowModal] = useState(false);
   const [newActivity, setNewActivity] = useState({
     title: "",
@@ -21,17 +26,19 @@ const TodosList = () => {
   const [editedStatus, setEditedStatus] = useState(false);
   const [editedUser, setEditedUser] = useState(false);
   const [editingTodoId, setEditingTodoId] = useState(null);
+  const [todoDetailsToFetch, setTodoDetailsToFetch] = useState({})
+
 
   const todosPerPage = 12;
   const fetchTodos = useCallback(async () => {
     try {
       let localTodos = CustomLocalStorage.get("todos");
-      console.log(localTodos, "localTodos");
+      // console.log(localTodos, "localTodos");
       if (localTodos.length > 0) {
         setTodos(CustomLocalStorage.get("todos"));
         setTotalPages(Math.ceil(localTodos.length / todosPerPage));
         setLoading(false);
-        console.log(localTodos);
+        // console.log(localTodos);
       } else {
         setLoading(true);
         const response = await fetch(
@@ -44,7 +51,7 @@ const TodosList = () => {
         localStorage.getItem("todos");
         setTotalPages(Math.ceil(data.length / todosPerPage));
         setLoading(false);
-        console.log(response);
+        // console.log(response);
       }
     } catch (error) {
       console.error("Error fetching todos:", error);
@@ -90,26 +97,69 @@ const TodosList = () => {
   //   localStorage.setItem("todos", JSON.stringify(todos));
   // }, [todos]);
 
+
+  // const handleNavigateTodoDetails = () => {
+  //       const { id } = useParams();
+
+  //   const fetchTodoDetails = async () => {
+  //     let fetchedTodo = await CustomLocalStorage.fetchTodoDetail('todos', id);
+  //     setTodoDetailsToFetch(fetchedTodo);
+  //   }
+    
+  // };
+
+
+  
+  // useEffect (() => {
+  //     fetchTodoDetails()}, [ id ]
+  //   )
+
+
+
+
   const getFilteredTodos = () => {
-    return todos.filter((todo) => {
+    const filteredTodos_ = todos.filter((todo) => {
       const matchesSearch = todo.title
         .toLowerCase()
         .includes(searchQuery.toLowerCase());
+
       const matchesFilter =
         filterStatus === "all" ||
         (filterStatus === "completed" && todo.completed) ||
         // (filterStatus === "user" && todo.user) ||
         (filterStatus === "notCompleted" && !todo.completed);
-      return matchesSearch && matchesFilter;
-    });
-  };
 
-  const getPaginatedTodos = () => {
-    const filteredTodos = getFilteredTodos();
+      const userFilter =
+        filterUser === "all" ||
+        (filterUser === "user1" && todo.userId === 1) ||
+        (filterUser === "user2" && todo.userId === 2) ||
+        (filterUser === "user3" && todo.userId === 3) ||
+        (filterUser === "user4" && todo.userId === 4) ||
+        (filterUser === "user5" && todo.userId === 5) ||
+        (filterUser === "user6" && todo.userId === 6) ||
+        (filterUser === "user7" && todo.userId === 7) ||
+        (filterUser === "user8" && todo.userId === 8) ||
+        (filterUser === "user9" && todo.userId === 9) ||
+        (filterUser === "user10" && todo.userId === 10);
+
+      const filteredAndSearchedTodos =
+        matchesSearch && matchesFilter && userFilter;
+
+      return filteredAndSearchedTodos;
+    });
+
     const startIndex = (currentPage - 1) * todosPerPage;
     const endIndex = startIndex + todosPerPage;
-    return filteredTodos.slice(startIndex, endIndex);
+    setPaginatedList(filteredTodos_.slice(startIndex, endIndex));
+    return filteredTodos_;
   };
+
+  const getPaginatedTodos = useCallback(() => {
+     const filteredTodos = getFilteredTodos();
+     const startIndex = (currentPage - 1) * todosPerPage;
+     const endIndex = startIndex + todosPerPage;
+     setPaginatedList(filteredTodos.slice(startIndex, endIndex));
+  },[paginatedList,currentPage]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -188,6 +238,11 @@ const TodosList = () => {
     handleFadeNextButton();
   }, [currentPage]);
 
+
+  useEffect(() => {
+    getPaginatedTodos();
+  },[getPaginatedTodos])
+
   const handleAddNewActivity = () => {
     if (!newActivity.title.trim()) {
       alert("Title cannot be empty.");
@@ -215,6 +270,7 @@ const TodosList = () => {
 
   const handleDelete = (id) => {
     setTodos(todos.filter((todo) => todo.id !== id));
+    CustomLocalStorage.delete("todos", id);
   };
 
   const startEditing = (todo) => {
@@ -287,11 +343,31 @@ const TodosList = () => {
               className=' px-4 py-2 rounded-lg border bg-transparent text-text-primary font-semibold border-border focus:outline-none focus:shadow-custom-focus hover:shadow-custom-focus'
             >
               <option value='all' className='bg-accent' disabled defaultValue>
-                No Filter
+                Filter Status
               </option>
               <option value='completed'>Done</option>
               <option value='notCompleted'>Not Done</option>
               {/* <option value='user1'>User 1</option> */}
+            </select>
+
+            <select
+              value={filterUser}
+              onChange={(e) => setFilterUser(e.target.value)}
+              className=' px-4 py-2 rounded-lg border bg-transparent text-text-primary font-semibold border-border focus:outline-none focus:shadow-custom-focus hover:shadow-custom-focus'
+            >
+              <option value='all' className='bg-accent' disabled defaultValue>
+                Filter User
+              </option>
+              <option value='user1'>User 1</option>
+              <option value='user2'>User 2</option>
+              <option value='user3'>User 3</option>
+              <option value='user4'>User 4</option>
+              <option value='user5'>User 5</option>
+              <option value='user6'>User 6</option>
+              <option value='user7'>User 7</option>
+              <option value='user8'>User 8</option>
+              <option value='user9'>User 9</option>
+              <option value='user10'>User 10</option>
             </select>
           </div>
 
@@ -380,7 +456,7 @@ const TodosList = () => {
               //   className='flex border-border border py-4 px-2 flex-col sm:flex-row sm:flex-wrap sm:justify-center gap-4 w-full'
               className='grid  sm:grid-cols-2 md:grid-cols-3  gap-8 w-full'
             >
-              {getPaginatedTodos().map((todo) => (
+              {paginatedList.map((todo) => (
                 <li
                   key={todo.id}
                   className='border-2 rounded-lg justify-center border-border p-4 items-center hover:shadow-custom-focus text-center flex flex-col gap-2 w-full'
@@ -451,6 +527,10 @@ const TodosList = () => {
                     <>
                       <strong>User: {todo.userId}</strong>
                       <strong>{todo.title}</strong>
+                      <NavLink to={`/todo/${todo.id}`} className='todo-link'>
+                        <h2>{todo.title}</h2>
+                      </NavLink>
+                        
                       <p> Status : {todo.completed ? "Done" : "Not Done"}</p>
                       <div className='flex gap-2'>
                         <button

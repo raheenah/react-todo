@@ -3,6 +3,7 @@ import axios from "axios";
 import ProfileSection from "../components/ProfileSection";
 import ReposSection from "../components/ListOfRepos";
 import TodosList from "../components/Todos";
+import TodoDetails from "../components/TodoDetails";
 
 const GitHubProfile = () => {
   const [profile, setProfile] = useState(null);
@@ -22,7 +23,7 @@ const GitHubProfile = () => {
     try {
       const response = await axios.get(profileUrl);
       setProfile(response.data);
-      console.log(response.data)
+      // console.log(response.data)
     } catch (error) {
       console.error("Error fetching profile data:", error);
     }
@@ -72,7 +73,8 @@ const GitHubProfile = () => {
       {profile && <ProfileSection profile={profile} />}
 
 
-       <TodosList />
+      <TodosList />
+      {/* <TodoDetails/> */}
     </div>
   );
 };
