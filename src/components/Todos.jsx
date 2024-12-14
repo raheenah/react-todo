@@ -60,7 +60,7 @@ const TodosList = () => {
   }, []);
   useEffect(() => {
     fetchTodos();
-  }, [fetchTodos]);
+  }, [currentPage]);
 
   const getFilteredTodos = () => {
     const filteredTodos_ = todos.filter((todo) => {
@@ -104,7 +104,7 @@ const TodosList = () => {
      const startIndex = (currentPage - 1) * todosPerPage;
      const endIndex = startIndex + todosPerPage;
      setPaginatedList(filteredTodos.slice(startIndex, endIndex));
-  },[paginatedList,currentPage]);
+  },[currentPage]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -187,7 +187,7 @@ const TodosList = () => {
 
   useEffect(() => {
     getPaginatedTodos();
-  },[getPaginatedTodos])
+  }, [paginatedList, currentPage]);
 
   const handleAddNewActivity = () => {
     if (!newActivity.title.trim()) {
@@ -214,53 +214,78 @@ const TodosList = () => {
     setNewActivity({ title: "", completed: false });
   };
 
-  const handleDelete = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
-    CustomLocalStorage.delete("todos", id);
-  };
+  // const handleDelete = (id) => {
+  //   setTodos(todos.filter((todo) => todo.id !== id));
+  //   CustomLocalStorage.delete("todos", id);
+  // };
 
-  const startEditing = (todo) => {
-    setEditingTodoId(todo.id);
-    setEditedUser(todo.userId);
-    setEditedTitle(todo.title);
-    setEditedStatus(todo.completed);
-  };
+  // const startEditing = (todo) => {
+  //   setEditingTodoId(todo.id);
+  //   setEditedUser(todo.userId);
+  //   setEditedTitle(todo.title);
+  //   setEditedStatus(todo.completed);
+  // };
 
-  const saveChanges = (id) => {
-    if (!editedTitle.trim()) {
-      alert("Title cannot be empty.");
-      return;
-    }
+  // const saveChanges = (id) => {
+  //   if (!editedTitle.trim()) {
+  //     alert("Title cannot be empty.");
+  //     return;
+  //   }
 
-    setTodos((prevTodos) =>
-      prevTodos.map((todo) =>
-        todo.id === id
-          ? {
-              ...todo,
-              title: editedTitle,
-              completed: editedStatus,
-              userId: editedUser,
-              id: id,
-            }
-          : todo
-      )
-    );
+  //   setTodos((prevTodos) =>
+  //     prevTodos.map((todo) =>
+  //       todo.id === id
+  //         ? {
+  //             ...todo,
+  //             title: editedTitle,
+  //             completed: editedStatus,
+  //             userId: editedUser,
+  //             id: id,
+  //           }
+  //         : todo
+  //     )
+  //   );
 
-    CustomLocalStorage.update("todos", {
-      title: editedTitle,
-      completed: editedStatus,
-      userId: editedUser,
-      id: id,
-    });
+  //   CustomLocalStorage.update("todos", {
+  //     title: editedTitle,
+  //     completed: editedStatus,
+  //     userId: editedUser,
+  //     id: id,
+  //   });
 
-    setEditingTodoId(null);
-  };
+  //   setEditingTodoId(null);
+  // };
 
-  const cancelEditing = () => {
-    setEditingTodoId(null);
-    setEditedTitle("");
-    setEditedStatus(false);
-  };
+  const handleCompleteActivity = () => {
+     console.log("completed")    
+    // setTodos((prevTodos) =>
+    //       prevTodos.map((todo) =>
+    //         todo.id === id
+    //           ? {
+    //               ...todo,
+    //               title: editedTitle,
+    //               completed: editedStatus,
+    //               userId: editedUser,
+    //               id: id,
+    //             }
+    //           : todo
+    //       )
+    //     );
+
+    //     CustomLocalStorage.update("todos", {
+    //       title: editedTitle,
+    //       completed: editedStatus,
+    //       userId: editedUser,
+    //       id: id,
+    //     });
+
+  }
+
+  // const cancelEditing = () => {
+  //   setEditingTodoId(null);
+  //   setEditedTitle("");
+  //   setEditedStatus(false);
+  // };
 
   return (
     <div className='flex flex-col justify-center mx-auto w-full lg:max-w-[80%] items-center gap-8'>
@@ -470,11 +495,11 @@ const TodosList = () => {
                       </div>
                     </>
                   ) : (
-                    <div className='flex flex-col w-full justify-center items-center gap-4'>
+                    <div className='grid grid-cols-[1fr_auto] w-full justify-center items-center gap-4'>
                       {/* <strong>{todo.title}</strong> */}
                       <NavLink
                         to={`/todo/${todo.id}`}
-                        className='todo-link grid grid-cols-[1fr_auto] justify-between items-center   w-full '
+                        className='todo-link  justify-between items-center   w-full '
                       >
                         <div className='text-left flex flex-col items-start '>
                           <h2 className='font-bold underline w-full'>
@@ -482,17 +507,30 @@ const TodosList = () => {
                           </h2>
                           <p>{todo.title}</p>
                         </div>
-                        <p
-                          className={`font-bold   w-fit ${
+                      </NavLink>
+
+                      {todo.completed ? (
+                        <button
+                          onClick={handleCompleteActivity}
+                          className={`font-bold   w-fit  hover:scale-[1.1] scale-[1] hover:shadow-custom-focus border border-border rounded-lg px-4 py-2  ${
                             todo.completed
                               ? "text-status-done"
                               : "text-status-notDone"
                           }`}
                         >
-                          {todo.completed ? "Done" : "Not Done"}
-                        </p>
-                      </NavLink>
-                      
+                          <i className='fa-solid fa-check'></i>
+                        </button>
+                      ) : (
+                        <button
+                          className={`font-bold   w-fit  hover:scale-[1.1] scale-[1] border hover:shadow-custom-focus border-border rounded-lg px-4 py-2  ${
+                            todo.completed
+                              ? "text-status-done"
+                              : "text-status-notDone"
+                          }`}
+                        >
+                          <i className='fa-solid fa-hourglass-start'></i>{" "}
+                        </button>
+                      )}
                     </div>
                   )}
                 </li>
