@@ -1,6 +1,6 @@
-// src/components/Loader.js
+
 import React from "react";
-import powerpuffGirlsImage from '../assets/powerpuff-girls-9.svg';  // Relative path
+import powerpuffGirlsImage from '../assets/powerpuff-girls-9.svg';  
 
 const Loader = () => {
   return (

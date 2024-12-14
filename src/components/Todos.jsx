@@ -62,61 +62,6 @@ const TodosList = () => {
     fetchTodos();
   }, [fetchTodos]);
 
-  //     useEffect(() => {
-  //       const fetchTodos = async () => {
-  //         setLoading(true);
-
-  //         // Check for todos in Local Storage
-  //         const localTodos = JSON.parse(localStorage.getItem("todos"));
-
-  //         if (localTodos) {
-  //           setTodos(localTodos);
-  //           setTotalPages(Math.ceil(localTodos.length / todosPerPage));
-  //         } else {
-  //           try {
-  //             const response = await fetch(
-  //               "https://jsonplaceholder.typicode.com/todos"
-  //             );
-  //             const data = await response.json();
-  //             setTodos(data);
-  //             setTotalPages(Math.ceil(data.length / todosPerPage));
-
-  //             // Save to Local Storage for future use
-  //             localStorage.setItem("todos", JSON.stringify(data));
-  //           } catch (error) {
-  //             console.error("Error fetching todos:", error);
-  //           }
-  //         }
-
-  //         setLoading(false);
-  //       };
-
-  //       fetchTodos();
-  //     }, []);
-  // useEffect(() => {
-  //   localStorage.setItem("todos", JSON.stringify(todos));
-  // }, [todos]);
-
-
-  // const handleNavigateTodoDetails = () => {
-  //       const { id } = useParams();
-
-  //   const fetchTodoDetails = async () => {
-  //     let fetchedTodo = await CustomLocalStorage.fetchTodoDetail('todos', id);
-  //     setTodoDetailsToFetch(fetchedTodo);
-  //   }
-    
-  // };
-
-
-  
-  // useEffect (() => {
-  //     fetchTodoDetails()}, [ id ]
-  //   )
-
-
-
-
   const getFilteredTodos = () => {
     const filteredTodos_ = todos.filter((todo) => {
       const matchesSearch = todo.title
@@ -180,6 +125,7 @@ const TodosList = () => {
       setCurrentPage(totalPages);
     }
   };
+
   const handlePrevPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
@@ -459,7 +405,7 @@ const TodosList = () => {
               {paginatedList.map((todo) => (
                 <li
                   key={todo.id}
-                  className='border-2 rounded-lg justify-center border-border p-4 items-center hover:shadow-custom-focus text-center flex flex-col gap-2 w-full'
+                  className='border-2 scale-[1] hover:scale-[1.03] rounded-lg justify-center border-border p-4 items-center hover:shadow-custom-focus text-center flex flex-col gap-2 w-full'
                 >
                   {editingTodoId === todo.id ? (
                     <>
@@ -524,29 +470,30 @@ const TodosList = () => {
                       </div>
                     </>
                   ) : (
-                    <>
-                      <strong>User: {todo.userId}</strong>
-                      <strong>{todo.title}</strong>
-                      <NavLink to={`/todo/${todo.id}`} className='todo-link'>
-                        <h2>{todo.title}</h2>
+                    <div className='flex flex-col w-full justify-center items-center gap-4'>
+                      {/* <strong>{todo.title}</strong> */}
+                      <NavLink
+                        to={`/todo/${todo.id}`}
+                        className='todo-link grid grid-cols-[1fr_auto] justify-between items-center   w-full '
+                      >
+                        <div className='text-left flex flex-col items-start '>
+                          <h2 className='font-bold underline w-full'>
+                            Assigned to: User {todo.userId}
+                          </h2>
+                          <p>{todo.title}</p>
+                        </div>
+                        <p
+                          className={`font-bold   w-fit ${
+                            todo.completed
+                              ? "text-status-done"
+                              : "text-status-notDone"
+                          }`}
+                        >
+                          {todo.completed ? "Done" : "Not Done"}
+                        </p>
                       </NavLink>
-                        
-                      <p> Status : {todo.completed ? "Done" : "Not Done"}</p>
-                      <div className='flex gap-2'>
-                        <button
-                          onClick={() => startEditing(todo)}
-                          className='px-4 py-2  text-text-primary  hover:text-text-secondary  rounded'
-                        >
-                          <i className='fa-solid fa-pen-to-square'></i>
-                        </button>
-                        <button
-                          onClick={() => handleDelete(todo.id)}
-                          className='text-button-delete-bg hover:text-button-delete-hover  px-4 py-2 rounded'
-                        >
-                          <i className='fa-solid fa-trash-can'></i>
-                        </button>
-                      </div>
-                    </>
+                      
+                    </div>
                   )}
                 </li>
               ))}

@@ -1,16 +1,28 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import  {  useEffect } from "react";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import CustomLocalStorage from "../Data/CustomLocalStorage";
+import { useState } from "react";
+import { use } from "react";
+import powerpuffGirlsImage from "../assets/deleted.png";
+
+
+  // const [todoDetailsToFetch, setTodoDetailsToFetch] = useState(null); 
 
 const TodoDetails = () => {
-  // Get 'id' from URL params (useParams will give it as a string)
-  const { id } = useParams();
-  const todoId = Number(id); // Convert it to a number if necessary
-    console.log(todoId, "todoId")
-    console.log(id, "id")
-  const [todoDetailsToFetch, setTodoDetailsToFetch] = useState({}); // State to store fetched todo details
+  const [todoDetailsToFetch, setTodoDetailsToFetch] = useState({}); 
+  const [editedUser, setEditedUser] = useState({});
+    const [editedStatus, setEditedStatus] = useState({}); 
+  const [editedTitle, setEditedTitle] = useState({}); 
+    const [editedTodoId, setEditedTodoId] = useState({}); 
+  const [editing, setEditing] = useState("false")
+  const navigate = useNavigate()
 
-  // Fetch todo details based on the 'id' from the URL
+
+  const { id } = useParams();
+  const todoId = Number(id);
+    // console.log(todoId, "todoId")
+    // console.log(id, "id")
+
   const fetchTodoDetails = async () => {
     try {
       const fetchedTodo = await CustomLocalStorage.fetchTodoDetail(
@@ -21,29 +33,186 @@ const TodoDetails = () => {
         setTodoDetailsToFetch(fetchedTodo);
         // console.log(todoDetailsToFetch)
     } catch (error) {
-      console.error("Error fetching todo details:", error); // Handle any errors
-      console.log("Error fetching todo details:", error); // Handle any errors
+      console.error("Error fetching todo details:", error); 
+      console.log("Error fetching todo details:", error);
     }
   };
 
-  // useEffect that runs when 'id' changes
   useEffect(() => {
-    fetchTodoDetails(); // Fetch the todo details when 'id' changes
-  }, [todoId]); // Only re-run when 'todoId' changes
+    fetchTodoDetails(); 
+  }, [todoId]); 
+
+  const handleDelete = (id) => {
+      console.log(id)
+      // setTodoDetailsToFetch(todoDetailsToFetch.filter((todo) => todo.id !== id));
+    CustomLocalStorage.delete("todos", id);
+    // window.location.reload();
+  };
+  
+  const startEditing = (todoDetailsToFetch) => {
+    setEditing("true")
+      // console.log(todoDetailsToFetch, "tododetails to")
+      setEditedTodoId(todoDetailsToFetch.id);
+      // console.log(editedTodoId, "editedTodoedid")
+      setEditedUser(todoDetailsToFetch.userId);
+      setEditedTitle(todoDetailsToFetch.title);
+    setEditedStatus(todoDetailsToFetch.completed);
+    // console.log(editedTitle)
+    };
+  
+    const saveChanges = (id) => {
+      if (!editedTitle.trim()) {
+        alert("Title cannot be empty.");
+        return;
+      }
+      
+  // console.log("saving...")
+      setTodoDetailsToFetch(
+        ({
+          
+          title: editedTitle,
+          completed: editedStatus,
+          userId: editedUser,
+          id: id,
+        }) 
+      );
+      // console.log(todoDetailsToFetch, "tododetailstofetch");
+      CustomLocalStorage.update("todos", {
+        title: editedTitle,
+        completed: editedStatus,
+        userId: editedUser,
+        id: id,
+      });
+  
+      setEditedTodoId(null);
+      setEditing("false")
+    };
+  
+    const cancelEditing = () => {
+      setEditedTodoId(null);
+      // setEditedTitle("");
+      setEditing(false);
+    };
 
   return (
-    <div>
-      <h1>Todo Details</h1>
-      {todoDetailsToFetch ? (
-        <div>
-          <h2>{todoDetailsToFetch.title || "No Title Available"}</h2>
-          <p>{todoDetailsToFetch.id}</p>
-          <p>{todoDetailsToFetch.userId}</p>
-          <p> Status : {todoDetailsToFetch.completed ? "Done" : "Not Done"}</p>
-        </div>
-      ) : (
-        <p>Loading...</p>
-      )}
+    <div className='bg-background flex flex-col items-center justify-center min-h-screen'>
+      <div
+        id='detailsCard'
+        className='shadow-custom-hover bg-primary perspective-1000 relative py-2 px-4 max-w-[50%] text-text-primary rounded-lg flex flex-col gap-4'
+      >
+        {editing === "true" ? (
+          <>
+            <h2>Edit Activity&apos;s Details</h2>
+            <div className='flex gap-2'>
+              <label className='font-semibold'>User</label>
+              <select
+                value={editedUser}
+                onChange={(e) => setEditedUser(e.target.value)}
+                className='border border-border bg-transparent focus:outline-none focus:shadow-custom-focus hover:shadow-custom-focus px-2 py-1 rounded-lg'
+              >
+                <option value='1'>1</option>
+                <option value='2'>2</option>
+                <option value='3'>3</option>
+                <option value='4'>4</option>
+                <option value='5'>5</option>
+                <option value='6'>6</option>
+                <option value='7'>7</option>
+                <option value='8'>8</option>
+                <option value='9'>9</option>
+                <option value='10'>10</option>
+              </select>
+            </div>
+
+            <div className='flex gap-2'>
+              <label className='font-semibold'>Title</label>
+              <input
+                type='text'
+                value={editedTitle}
+                onChange={(e) => setEditedTitle(e.target.value)}
+                className='border bg-transparent border-border focus:outline-none focus:shadow-custom-focus hover:shadow-custom-focus px-2 py-1 rounded-lg'
+              />
+            </div>
+            <div className='flex gap-2'>
+              <label className='font-semibold'>Status</label>
+
+              <select
+                value={editedStatus}
+                onChange={(e) => setEditedStatus(e.target.value === "true")}
+                className='border border-border bg-transparent focus:outline-none focus:shadow-custom-focus hover:shadow-custom-focus px-2 py-1 rounded-lg'
+              >
+                <option value='false'>Not Done</option>
+                <option value='true'>Done</option>
+              </select>
+            </div>
+
+            <div className='flex gap-2'>
+              <button
+                onClick={() => saveChanges(todoDetailsToFetch.id)}
+                className='px-4 py-2  text-text-primary  hover:text-text-secondary  rounded'
+              >
+                <i className='fa-solid fa-check'></i>
+              </button>
+              <button
+                onClick={cancelEditing}
+                className='text-button-delete-bg hover:text-button-delete-hover  px-4 py-2 rounded'
+              >
+                <i className='fa-solid fa-x'></i>
+              </button>
+            </div>
+          </>
+        ) : (
+          <div className=' w-full h-full bg-primary py-2 px-4 rounded-lg flex flex-col gap-4 backface-hidden'>
+            {/* <h1 className='font-bold'>Details on Selected Activity</h1> */}
+            {todoDetailsToFetch ? (
+              <div className='flex flex-col gap-4'>
+                <h1 className='font-bold'>Details on Selected Activity</h1>
+                <div className='flex gap-1 items-start '>
+                  <p className=' font-semibold'>Title:</p>
+                  <p>{todoDetailsToFetch.title}</p>
+                </div>
+                <div className='flex gap-1 items-start '>
+                  <p className=' font-semibold'>Assigned To:</p>
+                  <p>User&nbsp;{todoDetailsToFetch.userId}</p>
+                </div>
+                <div className='flex gap-1 items-start '>
+                  <p className=' font-semibold'>Status:</p>
+                  <p>{todoDetailsToFetch.completed ? "Done" : "Not Done"}</p>
+                </div>
+                <div className='flex gap-2'>
+                  <button
+                    onClick={() => startEditing(todoDetailsToFetch)}
+                    className='px-4 py-2  text-text-primary  hover:text-text-secondary  rounded'
+                  >
+                    <i className='fa-solid fa-pen-to-square'></i>
+                  </button>
+                  <button
+                    onClick={() => handleDelete(todoDetailsToFetch.id)}
+                    className='text-button-delete-bg hover:text-button-delete-hover  px-4 py-2 rounded'
+                  >
+                    <i className='fa-solid fa-trash-can'></i>
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className='flex flex-col items-center justify-center p-3 gap-4'>
+                <img
+                  src={powerpuffGirlsImage}
+                  alt='404 Page Image'
+                  className='h-40'
+                />
+
+                <div className='flex flex-col text-center items-center'>
+                  <h2 className='font-bold'>Mission Accomplished!</h2>
+                  <p>Bye-bye, clutter. Don’t look back.</p>
+                </div>
+                <NavLink to='/'>
+                  <i className='fa-solid fa-house text-button-bg hover:text-button-hover scale1[1] hover:scale-[1.1]'></i>
+                </NavLink>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

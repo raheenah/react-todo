@@ -87,7 +87,7 @@ const ProfileSection = ({ profile }) => {
                   href={link.url}
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='hover:underline hover:text-secondary'
+                  className='hover:underline text-button-bg hover:text-button-hover'
                 >
                   {link.text}
                 </a>

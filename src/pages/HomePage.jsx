@@ -5,7 +5,7 @@ import ReposSection from "../components/ListOfRepos";
 import TodosList from "../components/Todos";
 import TodoDetails from "../components/TodoDetails";
 
-const GitHubProfile = () => {
+const Home = () => {
   const [profile, setProfile] = useState(null);
   const [readme, setReadme] = useState(null);
   const [repos, setRepos] = useState([]);
@@ -79,4 +79,4 @@ const GitHubProfile = () => {
   );
 };
 
-export default GitHubProfile;
+export default Home;

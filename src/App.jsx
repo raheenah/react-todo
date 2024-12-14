@@ -1,12 +1,13 @@
 import React, { useState, useEffect, Suspense } from "react";
 import Loader from "./components/Loader";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+// import Home from "./pages/Home";
 // import ErrorTest from "./pages/ErrorBoundary";
 // import GitHubProfile from "./pages/GitHubProfile";
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-const GitHubProfile = React.lazy(() =>
-  delay(2000).then(() => import("./pages/GitHubProfile"))
+const Home = React.lazy(() =>
+  delay(2000).then(() => import("./pages/HomePage"))
 );
 const TodoDetailsPage = React.lazy(() =>
   delay(2000).then(() => import("./components/TodoDetails"))
@@ -31,7 +32,7 @@ function App() {
         <Suspense fallback={<Loader />}>
           <NavBar />
           <Routes>
-            <Route path='/' element={<GitHubProfile />} />
+            <Route path='/' element={<Home />} />
             <Route path='/todo/:id' element={<TodoDetailsPage />} />
             <Route path='/error-boundry-page' element={<ErrorTest />} />
             <Route path='*' element={<NotFoundPage />} />
