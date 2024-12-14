@@ -16,8 +16,8 @@ const ErrorTest = () => {
           <h1 className='font-extrabold text-xl text-text-primary'>
             Uh-oh, something went wrong!
           </h1>
-          <p>It seems something's broken</p>
-          <div className='flex gap-5 mt-5 items-center'>
+          <p>It seems something's broken, review the code one more time to find the villian.</p>
+          <div className='flex gap-5  items-center'>
             <button
               onClick={() => window.location.reload()}
               className='bg-button-bg hover:bg-button-hover text-text-primary font-bold px-4 py-2 rounded-lg'
