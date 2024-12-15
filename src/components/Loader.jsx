@@ -7,8 +7,8 @@ const Loader = () => {
     <div className='bg-background flex items-center justify-center min-h-screen'>
       <div className='text-center'>
         <div className='pulse w-28 h-28  mx-auto'>
-                  <img src={powerpuffGirlsImage} alt='Loader Image' />
-                  <p className="text-text-secondary">Loading...</p>
+           <img src={powerpuffGirlsImage} alt='Loader Image' />
+           <p className="text-text-secondary">Loading...</p>
         </div>
       </div>
     </div>

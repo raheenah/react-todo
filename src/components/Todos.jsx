@@ -58,43 +58,91 @@ const TodosList = () => {
     fetchTodos();
   }, [fetchTodos]);
 
-  const getFilteredTodos = () => {
-    const filteredTodos_ = todos.filter((todo) => {
-      const matchesSearch = todo.title
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase());
+  // const getFilteredTodos =  () => {
+  //   const filteredTodos_ = todos.filter((todo) => {
+  //     const matchesSearch = todo.title
+  //       .toLowerCase()
+  //       .includes(searchQuery.toLowerCase());
 
-      const matchesFilter =
-        filterStatus === "all" ||
-        (filterStatus === "completed" && todo.completed) ||
-        // (filterStatus === "user" && todo.user) ||
-        (filterStatus === "notCompleted" && !todo.completed);
+  //     const matchesFilter =
+  //       filterStatus === "all" ||
+  //       (filterStatus === "completed" && todo.completed) ||
+  //       // (filterStatus === "user" && todo.user) ||
+  //       (filterStatus === "notCompleted" && !todo.completed);
 
-      const userFilter =
-        filterUser === "all" ||
-        (filterUser === "user1" && todo.userId === 1) ||
-        (filterUser === "user2" && todo.userId === 2) ||
-        (filterUser === "user3" && todo.userId === 3) ||
-        (filterUser === "user4" && todo.userId === 4) ||
-        (filterUser === "user5" && todo.userId === 5) ||
-        (filterUser === "user6" && todo.userId === 6) ||
-        (filterUser === "user7" && todo.userId === 7) ||
-        (filterUser === "user8" && todo.userId === 8) ||
-        (filterUser === "user9" && todo.userId === 9) ||
-        (filterUser === "user10" && todo.userId === 10);
+  //     const userFilter =
+  //       filterUser === "all" ||
+  //       (filterUser === "user1" && todo.userId === 1) ||
+  //       (filterUser === "user2" && todo.userId === 2) ||
+  //       (filterUser === "user3" && todo.userId === 3) ||
+  //       (filterUser === "user4" && todo.userId === 4) ||
+  //       (filterUser === "user5" && todo.userId === 5) ||
+  //       (filterUser === "user6" && todo.userId === 6) ||
+  //       (filterUser === "user7" && todo.userId === 7) ||
+  //       (filterUser === "user8" && todo.userId === 8) ||
+  //       (filterUser === "user9" && todo.userId === 9) ||
+  //       (filterUser === "user10" && todo.userId === 10);
 
-      const filteredAndSearchedTodos =
-        matchesSearch && matchesFilter && userFilter;
+  //     const filteredAndSearchedTodos =
+  //       matchesSearch && matchesFilter && userFilter;
 
-      return filteredAndSearchedTodos;
-    });
+  //     return filteredAndSearchedTodos;
+  //   });
 
-    const startIndex = (currentPage - 1) * todosPerPage;
-    const endIndex = startIndex + todosPerPage;
-    setPaginatedList(filteredTodos_.slice(startIndex, endIndex));
-    return filteredTodos_;
-  };
+  //   const startIndex = (currentPage - 1) * todosPerPage;
+  //   const endIndex = startIndex + todosPerPage;
+  //   setPaginatedList(filteredTodos_.slice(startIndex, endIndex));
+  //   return filteredTodos_;
+  // };
 
+
+const getFilteredTodos = useCallback(() => {
+  const filteredTodos_ = todos.filter((todo) => {
+    const matchesSearch = todo.title
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+
+    const matchesFilter =
+      filterStatus === "all" ||
+      (filterStatus === "completed" && todo.completed) ||
+      (filterStatus === "notCompleted" && !todo.completed);
+
+    const userFilter =
+      filterUser === "all" ||
+      (filterUser === "user1" && todo.userId === 1) ||
+      (filterUser === "user2" && todo.userId === 2) ||
+      (filterUser === "user3" && todo.userId === 3) ||
+      (filterUser === "user4" && todo.userId === 4) ||
+      (filterUser === "user5" && todo.userId === 5) ||
+      (filterUser === "user6" && todo.userId === 6) ||
+      (filterUser === "user7" && todo.userId === 7) ||
+      (filterUser === "user8" && todo.userId === 8) ||
+      (filterUser === "user9" && todo.userId === 9) ||
+      (filterUser === "user10" && todo.userId === 10);
+
+    return matchesSearch && matchesFilter && userFilter;
+  });
+
+  const startIndex = (currentPage - 1) * todosPerPage;
+  const endIndex = startIndex + todosPerPage;
+
+  setPaginatedList(filteredTodos_.slice(startIndex, endIndex));
+
+
+  const pages = Math.ceil(filteredTodos_.length / todosPerPage);
+  setTotalPages(pages);
+
+  return filteredTodos_;
+}, [todos, currentPage, searchQuery, filterStatus, filterUser]);
+
+useEffect(() => {
+  getFilteredTodos();
+}, [todos, currentPage, searchQuery, filterStatus, filterUser]);
+
+useEffect(() => {
+
+  setCurrentPage(1);
+}, [searchQuery, filterStatus, filterUser]);
   const getPaginatedTodos = useCallback(() => {
     const filteredTodos = getFilteredTodos();
     const startIndex = (currentPage - 1) * todosPerPage;
@@ -302,7 +350,7 @@ const TodosList = () => {
 
             <input
               type='text'
-              placeholder='Search for an activity...'
+              placeholder='Search...'
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className='border border-border  placeholder:text-text-primary placeholder:font-semibold w-full px-2 sm:px-4 py-2 rounded-lg bg-transparent focus:outline-none focus:shadow-custom-focus hover:shadow-custom-focus'
@@ -313,7 +361,7 @@ const TodosList = () => {
               onChange={(e) => setFilterStatus(e.target.value)}
               className='flex items-center justify-center bg-button-bg text-center focus:outline-none hover:bg-button-hover text-text-primary font-bold p-1 appearance-none w-fit py-2 rounded-lg'
             >
-              <option value='all' className='bg-accent'  defaultValue>
+              <option value='all' className='bg-accent' defaultValue>
                 Status
               </option>
               <option value='completed'>Done</option>
@@ -325,7 +373,7 @@ const TodosList = () => {
               onChange={(e) => setFilterUser(e.target.value)}
               className='bg-button-bg text-center focus:outline-none hover:bg-button-hover text-text-primary font-bold  appearance-none w-fit py-2 rounded-lg'
             >
-              <option value='all' className='bg-accent'  defaultValue>
+              <option value='all' className='bg-accent' defaultValue>
                 User{" "}
               </option>
               <option value='user1'>User 1</option>
@@ -348,11 +396,14 @@ const TodosList = () => {
                 <div className='flex flex-col gap-2'>
                   <label className='font-semibold'>User</label>
                   <select
-                      value={newActivity.userId || 'all'}
-                      onChange={(e) =>
+                    value={newActivity.userId || "all"}
+                    onChange={(e) =>
                       setNewActivity((prevActivity) => ({
                         ...prevActivity,
-                       userId: e.target.value === 'all' ? '' : parseInt(e.target.value),
+                        userId:
+                          e.target.value === "all"
+                            ? ""
+                            : parseInt(e.target.value),
                       }))
                     }
                     className='border appearance-none focus:outline-none focus:shadow-custom-focus bg-transparent placeholder:text-text-primary border-border px-4 py-2 w-full rounded-lg'
@@ -366,16 +417,16 @@ const TodosList = () => {
                     >
                       Select User
                     </option>
-                    <option value='1'>1</option>
-                    <option value='2'>2</option>
-                    <option value='3'>3</option>
-                    <option value='4'>4</option>
-                    <option value='5'>5</option>
-                    <option value='6'>6</option>
-                    <option value='7'>7</option>
-                    <option value='8'>8</option>
-                    <option value='9'>9</option>
-                    <option value='10'>10</option>
+                    <option value='1'>User 1</option>
+                    <option value='2'>User 2</option>
+                    <option value='3'>User 3</option>
+                    <option value='4'>User 4</option>
+                    <option value='5'>User 5</option>
+                    <option value='6'>User 6</option>
+                    <option value='7'>User 7</option>
+                    <option value='8'>User 8</option>
+                    <option value='9'>User 9</option>
+                    <option value='10'>User 10</option>
                   </select>
                 </div>
                 <div className='flex flex-col gap-2'>
