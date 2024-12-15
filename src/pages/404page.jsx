@@ -12,7 +12,7 @@ const NotFound = () => {
           <p className=''>
             The page you requested doesn't exist or has been moved.{" "}
             <NavLink
-              href='/'
+              to='/'
               className=' text-button-bg hover:text-button-hover hover:underline'
             >
               Go back to Home

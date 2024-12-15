@@ -4,6 +4,19 @@
 
 
 
+.funnel-display {
+  font-family: "Funnel Display", sans-serif;
+  font-optical-sizing: auto;
+  /* font-weight: <weight>; */
+  font-style: normal;
+}
+
+
+body{
+  font-family: "Funnel Display", sans-serif;
+}
+
+
 @keyframes pulse {
   0% {
     transform: scale(1); /* Initial size */
