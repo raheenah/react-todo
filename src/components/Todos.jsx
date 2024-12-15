@@ -13,6 +13,7 @@ const TodosList = () => {
   const [lastPageButtonStyle, setlastPageButtonStyle] = useState({});
   const [firstPageButtonStyle, setfirstPageButtonStyle] = useState({});
   const [paginatedList, setPaginatedList] = useState([]);
+  const [status, setStatus] = useState(false);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
@@ -181,7 +182,7 @@ const TodosList = () => {
 
   useEffect(() => {
     getPaginatedTodos();
-  }, [todos, currentPage, searchQuery, filterStatus, filterUser]);
+  }, [todos, currentPage, searchQuery, filterStatus, filterUser, status]);
 
   const handleAddNewActivity = () => {
     if (!newActivity.title.trim()) {
@@ -210,6 +211,7 @@ const TodosList = () => {
   };
   const handleCompleteActivity = (id) => {
     // console.log("completed", id);
+  setStatus((prevStatus) => !prevStatus);
 
     const updatedTodos = todos.map((todo) => {
       if (todo.id === id) {
