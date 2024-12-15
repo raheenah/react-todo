@@ -311,7 +311,7 @@ const TodosList = () => {
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className='bg-button-bg text-center focus:outline-none hover:bg-button-hover text-text-primary font-bold p-1 appearance-none w-fit py-2 rounded-lg'
+              className='flex items-center justify-center bg-button-bg text-center focus:outline-none hover:bg-button-hover text-text-primary font-bold p-1 appearance-none w-fit py-2 rounded-lg'
             >
               <option value='all' className='bg-accent'  defaultValue>
                 Status
