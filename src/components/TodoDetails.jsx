@@ -97,18 +97,20 @@ const TodoDetails = () => {
   return (
     <div className='bg-background flex flex-col items-center justify-center min-h-screen'>
       <div
-        id='detailsCard'
-        className='shadow-custom-hover bg-primary perspective-1000 relative py-2 px-4 max-w-[50%] text-text-primary rounded-lg flex flex-col gap-4'
+        // id='detailsCard'
+        className='shadow-custom-hover mt-20 bg-primary perspective-1000 relative py-2 px-4 max-w-[50%] text-text-primary rounded-lg z-1 flex flex-col gap-4'
       >
         {editing === "true" ? (
-          <>
-            <h2>Edit Activity&apos;s Details</h2>
-            <div className='flex gap-2'>
+          <div className='flex flex-col p-2 gap-4'>
+            <h2 className='font-bold  text-center'>
+              Edit Activity&apos;s Details
+            </h2>
+            <div className='flex flex-col gap-1'>
               <label className='font-semibold'>User</label>
               <select
                 value={editedUser}
                 onChange={(e) => setEditedUser(e.target.value)}
-                className='border border-border bg-transparent focus:outline-none focus:shadow-custom-focus hover:shadow-custom-focus px-2 py-1 rounded-lg'
+                className='border appearance-none border-border bg-transparent focus:outline-none focus:shadow-custom-focus hover:shadow-custom-focus px-2 py-1 rounded-lg'
               >
                 <option value='1'>1</option>
                 <option value='2'>2</option>
@@ -123,7 +125,7 @@ const TodoDetails = () => {
               </select>
             </div>
 
-            <div className='flex gap-2'>
+            <div className='flex flex-col gap-1'>
               <label className='font-semibold'>Title</label>
               <input
                 type='text'
@@ -132,20 +134,20 @@ const TodoDetails = () => {
                 className='border bg-transparent border-border focus:outline-none focus:shadow-custom-focus hover:shadow-custom-focus px-2 py-1 rounded-lg'
               />
             </div>
-            <div className='flex gap-2'>
+            <div className='flex flex-col gap-1'>
               <label className='font-semibold'>Status</label>
 
               <select
                 value={editedStatus}
                 onChange={(e) => setEditedStatus(e.target.value === "true")}
-                className='border border-border bg-transparent focus:outline-none focus:shadow-custom-focus hover:shadow-custom-focus px-2 py-1 rounded-lg'
+                className='border appearance-none border-border bg-transparent focus:outline-none focus:shadow-custom-focus hover:shadow-custom-focus px-2 py-1 rounded-lg'
               >
                 <option value='false'>Not Done</option>
                 <option value='true'>Done</option>
               </select>
             </div>
 
-            <div className='flex gap-2'>
+            <div className='flex gap-2 items-center justify-center'>
               <button
                 onClick={() => saveChanges(todoDetailsToFetch.id)}
                 className='px-4 py-2  text-text-primary  hover:text-text-secondary  rounded'
@@ -159,26 +161,26 @@ const TodoDetails = () => {
                 <i className='fa-solid fa-x'></i>
               </button>
             </div>
-          </>
+          </div>
         ) : (
-          <div className=' w-full h-full bg-primary py-2 px-4 rounded-lg flex flex-col gap-4 backface-hidden'>
+          <div className=' w-full h-full bg-primary p-2 rounded-lg flex flex-col  gap-4 backface-hidden'>
             {/* <h1 className='font-bold'>Details on Selected Activity</h1> */}
             {todoDetailsToFetch ? (
-              <div className='flex flex-col gap-4'>
-                <h1 className='font-bold'>Details on Selected Activity</h1>
-                <div className='flex gap-1 items-start '>
+              <div className='flex flex-col gap-2'>
+                <h1 className='font-bold  text-center'>More Details</h1>
+                <div className='flex flex-col  items-start '>
                   <p className=' font-semibold'>Title:</p>
                   <p>{todoDetailsToFetch.title}</p>
                 </div>
-                <div className='flex gap-1 items-start '>
+                <div className='flex flex-col items-start '>
                   <p className=' font-semibold'>Assigned To:</p>
                   <p>User&nbsp;{todoDetailsToFetch.userId}</p>
                 </div>
-                <div className='flex gap-1 items-start '>
+                <div className='flex flex-col items-start '>
                   <p className=' font-semibold'>Status:</p>
                   <p>{todoDetailsToFetch.completed ? "Done" : "Not Done"}</p>
                 </div>
-                <div className='flex gap-2'>
+                <div className='flex  items-center justify-center gap-2'>
                   <button
                     onClick={() => startEditing(todoDetailsToFetch)}
                     className='px-4 py-2  text-text-primary  hover:text-text-secondary  rounded'
@@ -206,7 +208,7 @@ const TodoDetails = () => {
                   <p>Bye-bye, clutter. Don’t look back.</p>
                 </div>
                 <NavLink to='/'>
-                  <i className='fa-solid fa-house text-button-bg hover:text-button-hover scale1[1] hover:scale-[1.1]'></i>
+                  <i className='fa-solid fa-house text-button-bg hover:text-button-hover  hover:scale-[1.1]'></i>
                 </NavLink>
               </div>
             )}

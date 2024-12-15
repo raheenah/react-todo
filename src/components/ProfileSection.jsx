@@ -56,7 +56,7 @@ const ProfileSection = ({ profile }) => {
   }, [profile?.login]);
 
   return (
-    <div className='flex flex-col w-full mx-auto items-center lg:max-w-[80%] py-4 gap-2 text-center border border-border rounded-lg px-2  justify-center'>
+    <div className='flex flex-col w-full mx-auto items-center mt-20 lg:max-w-[80%] py-4 gap-2 text-center  shadow-custom-todo rounded-lg px-2  justify-center'>
       <img
         src={profile.avatar_url}
         alt={`${profile.name}'s Profile Picture`}

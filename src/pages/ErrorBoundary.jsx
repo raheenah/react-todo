@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 const ErrorTest = () => {
   return (
     <div className='bg-background flex p-3 items-center justify-center min-h-screen'>
-      <div className='flex flex-col items-center w-fit justify-center text-center'>
+      <div className='flex mt-20 flex-col items-center w-fit justify-center text-center'>
         <img
           src={powerpuffGirlsImage}
           alt='Error Boundary Test Page Image'
@@ -26,12 +26,12 @@ const ErrorTest = () => {
             >
               Refresh Page
             </button>
-            <a
-              href='/'
+            <NavLink
+              to='/'
               className=' text-button-bg hover:text-button-hover hover:underline'
             >
               Go to Home
-            </a>
+            </NavLink>
           </div>
         </div>
       </div>

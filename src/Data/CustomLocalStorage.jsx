@@ -37,7 +37,25 @@ export default class CustomLocalStorage {
     localStorage.setItem(key, JSON.stringify(newTodos));
   }
 
-  
+  static changeStatus(key, updatedTodo) {
+    const todos = JSON.parse(localStorage.getItem(key)) || [];
+    // console.log("updating stat")
+        const updatedTodos = todos.map((todo) => {
+          if (todo.id === updatedTodo) {
+            // console.log("Found todo to update:", todo);
+            const updatingTodo = { ...todo, completed: !todo.completed }; // Toggle status
+
+            // console.log("new status", updatingTodo.completed);
+            // console.log("updatedtodo", updatingTodo)
+            return updatingTodo;
+          }
+          return todo; 
+        });
+    
+    // console.log(updatedTodos, "updatedtodos")
+       localStorage.setItem(key, JSON.stringify(updatedTodos));
+      //  console.log("Updated todos saved to localStorage:", updatedTodos);
+  }
 
   static fetchTodoDetail(key, todoToFetchIndex) {
     const todos = JSON.parse(localStorage.getItem(key)) || [];
@@ -64,4 +82,6 @@ export default class CustomLocalStorage {
     
    
   }
+
+
 }

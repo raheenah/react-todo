@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import CustomLocalStorage from "../Data/CustomLocalStorage";
 // import { useParams } from "react-router-dom";
-import { NavLink } from "react-router-dom"
+import { NavLink } from "react-router-dom";
 // import { Link } from "react-router-dom";
 const TodosList = () => {
   const [todos, setTodos] = useState(CustomLocalStorage.get("todos") || []);
@@ -22,12 +22,7 @@ const TodosList = () => {
     title: "",
     completed: false,
   });
-  const [editedTitle, setEditedTitle] = useState("");
-  const [editedStatus, setEditedStatus] = useState(false);
-  const [editedUser, setEditedUser] = useState(false);
-  const [editingTodoId, setEditingTodoId] = useState(null);
-  const [todoDetailsToFetch, setTodoDetailsToFetch] = useState({})
-
+  
 
   const todosPerPage = 12;
   const fetchTodos = useCallback(async () => {
@@ -60,7 +55,7 @@ const TodosList = () => {
   }, []);
   useEffect(() => {
     fetchTodos();
-  }, [currentPage]);
+  }, [fetchTodos]);
 
   const getFilteredTodos = () => {
     const filteredTodos_ = todos.filter((todo) => {
@@ -100,11 +95,11 @@ const TodosList = () => {
   };
 
   const getPaginatedTodos = useCallback(() => {
-     const filteredTodos = getFilteredTodos();
-     const startIndex = (currentPage - 1) * todosPerPage;
-     const endIndex = startIndex + todosPerPage;
-     setPaginatedList(filteredTodos.slice(startIndex, endIndex));
-  },[currentPage]);
+    const filteredTodos = getFilteredTodos();
+    const startIndex = (currentPage - 1) * todosPerPage;
+    const endIndex = startIndex + todosPerPage;
+    setPaginatedList(filteredTodos.slice(startIndex, endIndex));
+  }, [paginatedList, currentPage]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -184,10 +179,9 @@ const TodosList = () => {
     handleFadeNextButton();
   }, [currentPage]);
 
-
   useEffect(() => {
     getPaginatedTodos();
-  }, [paginatedList, currentPage]);
+  }, [currentPage]);
 
   const handleAddNewActivity = () => {
     if (!newActivity.title.trim()) {
@@ -212,6 +206,23 @@ const TodosList = () => {
 
     setShowModal(false);
     setNewActivity({ title: "", completed: false });
+  };
+  const handleCompleteActivity = (id) => {
+    console.log("completed", id);
+
+    const updatedTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        // console.log("Found todo to update:", todo);
+        const updatingTodo = { ...todo, completed: !todo.completed };
+
+        // console.log("new status", updatingTodo.completed);
+        // console.log("updatedtodo", updatingTodo);
+        return updatingTodo;
+      }
+      return todo;
+    });
+    setTodos(updatedTodos);
+    CustomLocalStorage.changeStatus("todos", id);
   };
 
   // const handleDelete = (id) => {
@@ -256,30 +267,7 @@ const TodosList = () => {
   //   setEditingTodoId(null);
   // };
 
-  const handleCompleteActivity = () => {
-     console.log("completed")    
-    // setTodos((prevTodos) =>
-    //       prevTodos.map((todo) =>
-    //         todo.id === id
-    //           ? {
-    //               ...todo,
-    //               title: editedTitle,
-    //               completed: editedStatus,
-    //               userId: editedUser,
-    //               id: id,
-    //             }
-    //           : todo
-    //       )
-    //     );
-
-    //     CustomLocalStorage.update("todos", {
-    //       title: editedTitle,
-    //       completed: editedStatus,
-    //       userId: editedUser,
-    //       id: id,
-    //     });
-
-  }
+  
 
   // const cancelEditing = () => {
   //   setEditingTodoId(null);
@@ -296,38 +284,38 @@ const TodosList = () => {
           <div className='flex items-center  w-full  gap-2'>
             <button
               onClick={() => setShowModal(true)}
-              className='hover:text-text-secondary hover:shadow-custom-focus border border-border rounded-lg px-4 py-2 '
+              className='bg-button-bg hover:bg-button-hover text-text-primary font-bold px-4 py-2 rounded-lg'
             >
               <i className='fa-solid fa-plus'></i>
             </button>
+
             <input
               type='text'
               placeholder='Search for an activity...'
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className='border border-border placeholder:text-text-primary placeholder:font-semibold w-full px-4 py-2 rounded-lg bg-transparent focus:outline-none focus:shadow-custom-focus hover:shadow-custom-focus'
+              className='border border-border  placeholder:text-text-primary placeholder:font-semibold w-full px-2 sm:px-4 py-2 rounded-lg bg-transparent focus:outline-none focus:shadow-custom-focus hover:shadow-custom-focus'
             />
 
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className=' px-4 py-2 rounded-lg border bg-transparent text-text-primary font-semibold border-border focus:outline-none focus:shadow-custom-focus hover:shadow-custom-focus'
+              className='bg-button-bg text-center focus:outline-none hover:bg-button-hover text-text-primary font-bold p-1 appearance-none w-fit py-2 rounded-lg'
             >
               <option value='all' className='bg-accent' disabled defaultValue>
-                Filter Status
+                Status
               </option>
               <option value='completed'>Done</option>
               <option value='notCompleted'>Not Done</option>
-              {/* <option value='user1'>User 1</option> */}
             </select>
 
             <select
               value={filterUser}
               onChange={(e) => setFilterUser(e.target.value)}
-              className=' px-4 py-2 rounded-lg border bg-transparent text-text-primary font-semibold border-border focus:outline-none focus:shadow-custom-focus hover:shadow-custom-focus'
+              className='bg-button-bg text-center focus:outline-none hover:bg-button-hover text-text-primary font-bold  appearance-none w-fit py-2 rounded-lg'
             >
               <option value='all' className='bg-accent' disabled defaultValue>
-                Filter User
+                User{" "}
               </option>
               <option value='user1'>User 1</option>
               <option value='user2'>User 2</option>
@@ -343,7 +331,7 @@ const TodosList = () => {
           </div>
 
           {showModal && (
-            <div className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center'>
+            <div className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-10'>
               <div className='bg-background p-6 rounded-lg shadow-lg flex flex-col gap-4'>
                 <h2 className='text-lg font-bold '>Add New Activity</h2>
                 <div className='flex flex-col gap-2'>
@@ -422,117 +410,54 @@ const TodosList = () => {
               Add New Activity
             </button>
           </div> */}
-          <div className='border-border rounded-lg border p-8 flex flex-col gap-8 w-full'>
+          <div className='shadow-custom-todo rounded-lg border p-8 flex flex-col gap-8 w-full'>
             <ul
               //   className='flex border-border border py-4 px-2 flex-col sm:flex-row sm:flex-wrap sm:justify-center gap-4 w-full'
-              className='grid  sm:grid-cols-2 md:grid-cols-3  gap-8 w-full'
+              className='grid  gap-8 w-full'
             >
               {paginatedList.map((todo) => (
                 <li
                   key={todo.id}
-                  className='border-2 scale-[1] hover:scale-[1.03] rounded-lg justify-center border-border p-4 items-center hover:shadow-custom-focus text-center flex flex-col gap-2 w-full'
+                  className='border-2  hover:scale-[1.03] z-1 rounded-lg justify-center border-border p-4 items-center hover:shadow-custom-focus text-center flex flex-col gap-2 w-full'
                 >
-                  {editingTodoId === todo.id ? (
-                    <>
-                      <h2>Edit Activity&apos;s Details</h2>
-                      <div className='flex gap-2'>
-                        <label className='font-semibold'>User</label>
-                        <select
-                          value={editedUser}
-                          onChange={(e) => setEditedUser(e.target.value)}
-                          className='border border-border bg-transparent focus:outline-none focus:shadow-custom-focus hover:shadow-custom-focus px-2 py-1 rounded-lg'
-                        >
-                          <option value='1'>1</option>
-                          <option value='2'>2</option>
-                          <option value='3'>3</option>
-                          <option value='4'>4</option>
-                          <option value='5'>5</option>
-                          <option value='6'>6</option>
-                          <option value='7'>7</option>
-                          <option value='8'>8</option>
-                          <option value='9'>9</option>
-                          <option value='10'>10</option>
-                        </select>
+                  <div className='grid grid-cols-[1fr_auto] w-full justify-center items-center gap-4'>
+                    {/* <strong>{todo.title}</strong> */}
+                    <NavLink
+                      to={`/todo/${todo.id}`}
+                      className='todo-link  justify-between items-center   w-full '
+                    >
+                      <div className='text-left flex flex-col items-start '>
+                        <h2 className='font-bold underline w-full'>
+                          Assigned to: User {todo.userId}
+                        </h2>
+                        <p>{todo.title}</p>
                       </div>
+                    </NavLink>
 
-                      <div className='flex gap-2'>
-                        <label className='font-semibold'>Title</label>
-                        <input
-                          type='text'
-                          value={editedTitle}
-                          onChange={(e) => setEditedTitle(e.target.value)}
-                          className='border bg-transparent border-border focus:outline-none focus:shadow-custom-focus hover:shadow-custom-focus px-2 py-1 rounded-lg'
-                        />
-                      </div>
-                      <div className='flex gap-2'>
-                        <label className='font-semibold'>Status</label>
-
-                        <select
-                          value={editedStatus}
-                          onChange={(e) =>
-                            setEditedStatus(e.target.value === "true")
-                          }
-                          className='border border-border bg-transparent focus:outline-none focus:shadow-custom-focus hover:shadow-custom-focus px-2 py-1 rounded-lg'
-                        >
-                          <option value='false'>Not Done</option>
-                          <option value='true'>Done</option>
-                        </select>
-                      </div>
-
-                      <div className='flex gap-2'>
-                        <button
-                          onClick={() => saveChanges(todo.id)}
-                          className='px-4 py-2  text-text-primary  hover:text-text-secondary  rounded'
-                        >
-                          <i className='fa-solid fa-check'></i>
-                        </button>
-                        <button
-                          onClick={cancelEditing}
-                          className='text-button-delete-bg hover:text-button-delete-hover  px-4 py-2 rounded'
-                        >
-                          <i className='fa-solid fa-x'></i>
-                        </button>
-                      </div>
-                    </>
-                  ) : (
-                    <div className='grid grid-cols-[1fr_auto] w-full justify-center items-center gap-4'>
-                      {/* <strong>{todo.title}</strong> */}
-                      <NavLink
-                        to={`/todo/${todo.id}`}
-                        className='todo-link  justify-between items-center   w-full '
+                    {todo.completed ? (
+                      <button
+                        onClick={() => handleCompleteActivity(todo.id)}
+                        className={`font-bold   w-fit  hover:scale-[1.1]  hover:shadow-custom-focus border border-border rounded-lg px-4 py-2  ${
+                          todo.completed
+                            ? "text-status-done"
+                            : "text-status-notDone"
+                        }`}
                       >
-                        <div className='text-left flex flex-col items-start '>
-                          <h2 className='font-bold underline w-full'>
-                            Assigned to: User {todo.userId}
-                          </h2>
-                          <p>{todo.title}</p>
-                        </div>
-                      </NavLink>
-
-                      {todo.completed ? (
-                        <button
-                          onClick={handleCompleteActivity}
-                          className={`font-bold   w-fit  hover:scale-[1.1] scale-[1] hover:shadow-custom-focus border border-border rounded-lg px-4 py-2  ${
-                            todo.completed
-                              ? "text-status-done"
-                              : "text-status-notDone"
-                          }`}
-                        >
-                          <i className='fa-solid fa-check'></i>
-                        </button>
-                      ) : (
-                        <button
-                          className={`font-bold   w-fit  hover:scale-[1.1] scale-[1] border hover:shadow-custom-focus border-border rounded-lg px-4 py-2  ${
-                            todo.completed
-                              ? "text-status-done"
-                              : "text-status-notDone"
-                          }`}
-                        >
-                          <i className='fa-solid fa-hourglass-start'></i>{" "}
-                        </button>
-                      )}
-                    </div>
-                  )}
+                        <i className='fa-solid fa-check'></i>
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleCompleteActivity(todo.id)}
+                        className={`font-bold   w-fit  hover:scale-[1.1]  border hover:shadow-custom-focus border-border rounded-lg px-4 py-2  ${
+                          todo.completed
+                            ? "text-status-done"
+                            : "text-status-notDone"
+                        }`}
+                      >
+                        <i className='fa-solid fa-hourglass-start'></i>{" "}
+                      </button>
+                    )}
+                  </div>
                 </li>
               ))}
             </ul>

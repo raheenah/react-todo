@@ -41,11 +41,11 @@
   .transform-style-preserve-3d {
     transform-style: preserve-3d;
   }
+
    .flip-text {
     transform: rotateY(180deg);  /* Flip the back card to reverse the text direction */
     direction: ltr;  /* Ensure text is left-to-right */
   }
 }
-
 
 

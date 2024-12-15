@@ -35,6 +35,7 @@ export default {
       },
       boxShadow: {
         "custom-hover": "0 0 15px 10px rgba(173, 104, 124, 0.25)",
+        "custom-todo": "0 0 5px 6px rgba(173, 104, 124, 0.25)",
         "custom-focus": "0 0 8px 4px rgba(248, 195, 217, 0.6)",
         "custom-top": "-4px 0 6px rgba(248, 195, 217, 0.4)",
         "custom-bottom": "0 4px 6px rgba(248, 195, 217, 0.4)",
