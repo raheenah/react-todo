@@ -99,7 +99,7 @@ const TodosList = () => {
     const startIndex = (currentPage - 1) * todosPerPage;
     const endIndex = startIndex + todosPerPage;
     setPaginatedList(filteredTodos.slice(startIndex, endIndex));
-  }, [paginatedList, currentPage]);
+  }, [todos, currentPage, searchQuery, filterStatus, filterUser]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -181,7 +181,7 @@ const TodosList = () => {
 
   useEffect(() => {
     getPaginatedTodos();
-  }, [currentPage]);
+  }, [todos, currentPage, searchQuery, filterStatus, filterUser]);
 
   const handleAddNewActivity = () => {
     if (!newActivity.title.trim()) {
@@ -311,7 +311,7 @@ const TodosList = () => {
               onChange={(e) => setFilterStatus(e.target.value)}
               className='bg-button-bg text-center focus:outline-none hover:bg-button-hover text-text-primary font-bold p-1 appearance-none w-fit py-2 rounded-lg'
             >
-              <option value='all' className='bg-accent' disabled defaultValue>
+              <option value='all' className='bg-accent'  defaultValue>
                 Status
               </option>
               <option value='completed'>Done</option>
@@ -323,7 +323,7 @@ const TodosList = () => {
               onChange={(e) => setFilterUser(e.target.value)}
               className='bg-button-bg text-center focus:outline-none hover:bg-button-hover text-text-primary font-bold  appearance-none w-fit py-2 rounded-lg'
             >
-              <option value='all' className='bg-accent' disabled defaultValue>
+              <option value='all' className='bg-accent'  defaultValue>
                 User{" "}
               </option>
               <option value='user1'>User 1</option>
