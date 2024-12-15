@@ -102,7 +102,7 @@ const TodoDetails = () => {
         className='shadow-custom-hover w-96  mx-auto  bg-primary py-2 px-4  max-w-[70%] text-text-primary rounded-lg z-1 flex flex-col gap-4'
       >
         {editing === "true" ? (
-          <div className='flex flex-col p-2 w-full  gap-4'>
+          <div className='flex flex-col p-2 w-full mx-auto gap-4'>
             <h2 className='font-bold  text-center'>
               Edit Activity&apos;s Details
             </h2>
