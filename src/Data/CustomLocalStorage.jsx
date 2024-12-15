@@ -61,10 +61,8 @@ export default class CustomLocalStorage {
     const todos = JSON.parse(localStorage.getItem(key)) || [];
 // console.log(todos, "todos")
     if (
-      todos.length === 0 ||
-      todoToFetchIndex < 0 ||
-      todoToFetchIndex >= todos.length
-    ) {
+      
+      todoToFetchIndex < 0    ) {
             // console.log(todo.length, "todoToFetchIndex");
 
       console.log("Invalid index or todo not found");

@@ -28,10 +28,9 @@ const TodoDetails = () => {
       const fetchedTodo = await CustomLocalStorage.fetchTodoDetail(
         "todos",
           todoId
-        
       );
         setTodoDetailsToFetch(fetchedTodo);
-        // console.log(todoDetailsToFetch)
+        // console.log(todoDetailsToFetch, "data fetched")
     } catch (error) {
       console.error("Error fetching todo details:", error); 
       console.log("Error fetching todo details:", error);

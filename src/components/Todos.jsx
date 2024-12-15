@@ -205,10 +205,11 @@ const TodosList = () => {
     CustomLocalStorage.set("todos", [...todos, { id: newId, ...newActivity }]);
 
     setShowModal(false);
+    document.body.style.overflow = "auto";
     setNewActivity({ title: "", completed: false });
   };
   const handleCompleteActivity = (id) => {
-    console.log("completed", id);
+    // console.log("completed", id);
 
     const updatedTodos = todos.map((todo) => {
       if (todo.id === id) {
@@ -221,8 +222,13 @@ const TodosList = () => {
       }
       return todo;
     });
-    setTodos(updatedTodos);
+    // setTodos(updatedTodos);
     CustomLocalStorage.changeStatus("todos", id);
+    const updatedList = JSON.parse(localStorage.getItem("todos")) || [];
+
+    setTodos(updatedList);
+    // console.log(todos, "updatedlistoftodos")
+
   };
 
   // const handleDelete = (id) => {
@@ -283,7 +289,10 @@ const TodosList = () => {
         <>
           <div className='flex items-center  w-full  gap-2'>
             <button
-              onClick={() => setShowModal(true)}
+              onClick={() => {
+                setShowModal(true);
+                document.body.style.overflow = "hidden";
+              }}
               className='bg-button-bg hover:bg-button-hover text-text-primary font-bold px-4 py-2 rounded-lg'
             >
               <i className='fa-solid fa-plus'></i>
@@ -331,18 +340,30 @@ const TodosList = () => {
           </div>
 
           {showModal && (
-            <div className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-10'>
+            <div className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50'>
               <div className='bg-background p-6 rounded-lg shadow-lg flex flex-col gap-4'>
                 <h2 className='text-lg font-bold '>Add New Activity</h2>
                 <div className='flex flex-col gap-2'>
                   <label className='font-semibold'>User</label>
                   <select
-                    value={newActivity.userId}
-                    onChange={(e) =>
-                      setNewActivity({ ...newActivity, userId: e.target.value })
+                      value={newActivity.userId || 'all'}
+                      onChange={(e) =>
+                      setNewActivity((prevActivity) => ({
+                        ...prevActivity,
+                       userId: e.target.value === 'all' ? '' : parseInt(e.target.value),
+                      }))
                     }
-                    className='border bg-transparent placeholder:text-text-primary border-border px-4 py-2 w-full rounded-lg'
+                    className='border appearance-none focus:outline-none focus:shadow-custom-focus bg-transparent placeholder:text-text-primary border-border px-4 py-2 w-full rounded-lg'
                   >
+                    {" "}
+                    <option
+                      value='all'
+                      className='bg-accent'
+                      disabled
+                      defaultValue
+                    >
+                      Select User
+                    </option>
                     <option value='1'>1</option>
                     <option value='2'>2</option>
                     <option value='3'>3</option>
@@ -363,7 +384,7 @@ const TodosList = () => {
                     onChange={(e) =>
                       setNewActivity({ ...newActivity, title: e.target.value })
                     }
-                    className='border bg-transparent placeholder:text-text-primary border-border px-4 py-2 w-full rounded-lg'
+                    className=' focus:outline-none focus:shadow-custom-focus border bg-transparent placeholder:text-text-primary border-border px-4 py-2 w-full rounded-lg'
                     placeholder='Input Title'
                   />
                 </div>
@@ -379,7 +400,7 @@ const TodosList = () => {
                         completed: e.target.value === "true",
                       })
                     }
-                    className='border bg-transparent border-border px-4 py-2 w-full rounded-lg'
+                    className='appearance-none focus:outline-none focus:shadow-custom-focus border bg-transparent border-border px-4 py-2 w-full rounded-lg'
                   >
                     <option value='false'>Not Done</option>
                     <option value='true'>Done</option>
@@ -393,7 +414,10 @@ const TodosList = () => {
                     Add Activity
                   </button>
                   <button
-                    onClick={() => setShowModal(false)}
+                    onClick={() => {
+                      setShowModal(false);
+                      document.body.style.overflow = "auto";
+                    }}
                     className='bg-button-cancel-bg hover:bg-button-cancel-hover font-bold px-4 py-2 rounded-lg'
                   >
                     Cancel
