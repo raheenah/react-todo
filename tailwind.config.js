@@ -19,8 +19,8 @@ export default {
             hover: "#E66B6B",
           },
           cancel: {
-            bg: "#D9D9D9",
-            hover: "#B3B3B3",
+            bg: "#F8D1D9",
+            hover: "#F1A0B4",
           },
         },
         status: {

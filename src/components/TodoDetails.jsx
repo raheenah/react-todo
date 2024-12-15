@@ -113,16 +113,16 @@ const TodoDetails = () => {
                 onChange={(e) => setEditedUser(e.target.value)}
                 className='border appearance-none border-border bg-transparent focus:outline-none focus:shadow-custom-focus hover:shadow-custom-focus px-2 py-1 rounded-lg'
               >
-                <option value='1'>1</option>
-                <option value='2'>2</option>
-                <option value='3'>3</option>
-                <option value='4'>4</option>
-                <option value='5'>5</option>
-                <option value='6'>6</option>
-                <option value='7'>7</option>
-                <option value='8'>8</option>
-                <option value='9'>9</option>
-                <option value='10'>10</option>
+                <option value='1'>User 1</option>
+                <option value='2'>User 2</option>
+                <option value='3'>User 3</option>
+                <option value='4'>User 4</option>
+                <option value='5'>User 5</option>
+                <option value='6'>User 6</option>
+                <option value='7'>User 7</option>
+                <option value='8'>User 8</option>
+                <option value='9'>User 9</option>
+                <option value='10'>User 10</option>
               </select>
             </div>
 

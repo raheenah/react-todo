@@ -185,12 +185,12 @@ useEffect(() => {
   const handleFadePrevButton = () => {
     if (currentPage === 1) {
       setPrevButtonStyle({
-        backgroundColor: "#D9D9D9",
+        backgroundColor: "#F8D1D9",
         color: "#A88CA9",
         cursor: "not-allowed",
       });
       setfirstPageButtonStyle({
-        backgroundColor: "#D9D9D9",
+        backgroundColor: "#F8D1D9",
         color: "#A88CA9",
         cursor: "not-allowed",
       });
@@ -206,16 +206,15 @@ useEffect(() => {
 
   const handleFadeNextButton = () => {
     if (currentPage === totalPages) {
-      setNextButtonStyle({
+      setNextButtonStyle(
+      {
+        backgroundColor: "#F8D1D9",
         color: "#A88CA9",
-
-        backgroundColor: "lightgray",
         cursor: "not-allowed",
       });
       setlastPageButtonStyle({
+        backgroundColor: "#F8D1D9",
         color: "#A88CA9",
-
-        backgroundColor: "lightgray",
         cursor: "not-allowed",
       });
     } else {
