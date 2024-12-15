@@ -16,6 +16,7 @@ const TodoDetails = () => {
     const [editedTodoId, setEditedTodoId] = useState({}); 
   const [editing, setEditing] = useState("false")
   const navigate = useNavigate()
+  const [deleted, setDeleted] = useState("false");
 
 
   const { id } = useParams();
@@ -46,6 +47,7 @@ const TodoDetails = () => {
       // setTodoDetailsToFetch(todoDetailsToFetch.filter((todo) => todo.id !== id));
     CustomLocalStorage.delete("todos", id);
     // window.location.reload();
+    setDeleted("true")
   };
   
   const startEditing = (todoDetailsToFetch) => {
@@ -164,7 +166,7 @@ const TodoDetails = () => {
         ) : (
           <div className=' w-full h-full bg-primary p-2 rounded-lg flex flex-col  gap-4 backface-hidden'>
             {/* <h1 className='font-bold'>Details on Selected Activity</h1> */}
-            {todoDetailsToFetch ? (
+            {deleted === "false" ? (
               <div className='flex flex-col gap-2'>
                 <h1 className='font-bold  text-center'>More Details</h1>
                 <div className='flex flex-col  items-start '>
