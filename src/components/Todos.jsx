@@ -202,7 +202,7 @@ useEffect(() => {
 
   useEffect(() => {
     handleFadePrevButton();
-  }, [currentPage]);
+  }, [currentPage, totalPages]);
 
   const handleFadeNextButton = () => {
     if (currentPage === totalPages) {
@@ -226,7 +226,7 @@ useEffect(() => {
 
   useEffect(() => {
     handleFadeNextButton();
-  }, [currentPage]);
+  }, [currentPage, totalPages]);
 
   useEffect(() => {
     getPaginatedTodos();
