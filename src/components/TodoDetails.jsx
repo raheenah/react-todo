@@ -99,7 +99,7 @@ const TodoDetails = () => {
     <div className='bg-background  mx-auto flex flex-col items-center justify-center py-20'>
       <div
         // id='detailsCard'
-        className='shadow-custom-hover w-full  mx-auto  bg-primary py-2 px-4  max-w-[70%] text-text-primary rounded-lg z-1 flex flex-col gap-4'
+        className='shadow-custom-hover w-96  mx-auto  bg-primary py-2 px-4  max-w-[70%] text-text-primary rounded-lg z-1 flex flex-col gap-4'
       >
         {editing === "true" ? (
           <div className='flex flex-col p-2 w-full  gap-4'>
@@ -128,12 +128,11 @@ const TodoDetails = () => {
 
             <div className='flex flex-col gap-1'>
               <label className='font-semibold'>Title</label>
-              <input
-                type='text'
+              <textarea
                 value={editedTitle}
                 onChange={(e) => setEditedTitle(e.target.value)}
-                className='border bg-transparent border-border focus:outline-none focus:shadow-custom-focus hover:shadow-custom-focus px-2 py-1 rounded-lg'
-              />
+                className='border min-h-24 bg-transparent border-border focus:outline-none focus:shadow-custom-focus hover:shadow-custom-focus px-2 py-1 rounded-lg'
+              ></textarea>
             </div>
             <div className='flex flex-col gap-1'>
               <label className='font-semibold'>Status</label>

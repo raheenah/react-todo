@@ -7,25 +7,25 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const Home = React.lazy(() =>
-  delay(2000).then(() => import("./pages/HomePage"))
+  delay(1000).then(() => import("./pages/HomePage"))
 );
 const TodoDetailsPage = React.lazy(() =>
-  delay(2000).then(() => import("./components/TodoDetails"))
+  delay(1000).then(() => import("./components/TodoDetails"))
 );
 const NotFoundPage = React.lazy(() =>
-  delay(2000).then(() => import("./pages/404page"))
+  delay(1000).then(() => import("./pages/404page"))
 );
 const ErrorTest = React.lazy(() =>
-  delay(2000).then(() => import("./pages/ErrorBoundary"))
+  delay(1000).then(() => import("./pages/ErrorBoundary"))
 );
 const NavBar = React.lazy(() =>
-  delay(2000).then(() => import("./components/NavBar"))
+  delay(1000).then(() => import("./components/NavBar"))
 );
 const Footer = React.lazy(() =>
-  delay(2000).then(() => import("./components/Footer"))
+  delay(1000).then(() => import("./components/Footer"))
 );
 const Todos = React.lazy(() =>
-  delay(2000).then(() => import("./components/Todos"))
+  delay(1000).then(() => import("./components/Todos"))
 );
 
 function App() {

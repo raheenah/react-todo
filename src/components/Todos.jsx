@@ -433,15 +433,15 @@ useEffect(() => {
                 </div>
                 <div className='flex flex-col gap-2'>
                   <label className='  font-semibold'>Title</label>
-                  <input
+                  <textarea
                     type='text'
                     value={newActivity.title}
                     onChange={(e) =>
                       setNewActivity({ ...newActivity, title: e.target.value })
                     }
-                    className=' focus:outline-none focus:shadow-custom-focus border bg-transparent placeholder:text-text-primary border-border px-4 py-2 w-full rounded-lg'
+                    className='min-h-24 focus:outline-none focus:shadow-custom-focus border bg-transparent placeholder:text-text-primary border-border px-4 py-2 w-full rounded-lg'
                     placeholder='Input Title'
-                  />
+                  ></textarea>
                 </div>
                 <div className='flex flex-col gap-2'>
                   <label className='  font-semibold'>
