@@ -4,6 +4,7 @@ import ProfileSection from "../components/ProfileSection";
 import ReposSection from "../components/ListOfRepos";
 import TodosList from "../components/Todos";
 import TodoDetails from "../components/TodoDetails";
+import { Outlet } from "react-router-dom";
 
 const Home = () => {
   const [profile, setProfile] = useState(null);
@@ -72,8 +73,8 @@ const Home = () => {
     <div className='p-8 flex flex-col gap-8  items-start bg-background text-text-primary w-[100%]'>
       {profile && <ProfileSection profile={profile} />}
 
-
-      <TodosList />
+<Outlet/>
+      {/* <TodosList /> */}
       {/* <TodoDetails/> */}
     </div>
   );

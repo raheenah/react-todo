@@ -24,6 +24,9 @@ const NavBar = React.lazy(() =>
 const Footer = React.lazy(() =>
   delay(2000).then(() => import("./components/Footer"))
 );
+const Todos = React.lazy(() =>
+  delay(2000).then(() => import("./components/Todos"))
+);
 
 function App() {
   return (
@@ -32,8 +35,10 @@ function App() {
         <Suspense fallback={<Loader />}>
           <NavBar />
           <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/todo/:id' element={<TodoDetailsPage />} />
+            <Route path='/' element={<Home />} >
+              <Route index element={<Todos/>}/>
+              <Route path='/todo/:id' element={<TodoDetailsPage />} />
+            </Route>
             <Route path='/error-boundry-page' element={<ErrorTest />} />
             <Route path='*' element={<NotFoundPage />} />
           </Routes>

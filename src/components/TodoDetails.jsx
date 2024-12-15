@@ -96,10 +96,10 @@ const TodoDetails = () => {
     };
 
   return (
-    <div className='bg-background flex flex-col items-center justify-center min-h-screen'>
+    <div className='bg-background  mx-auto flex flex-col items-center justify-center py-20'>
       <div
         // id='detailsCard'
-        className='shadow-custom-hover mt-20 bg-primary perspective-1000 relative py-2 px-4  max-w-[50%] text-text-primary rounded-lg z-1 flex flex-col gap-4'
+        className='shadow-custom-hover  mx-auto  bg-primary py-2 px-4  max-w-[70%] text-text-primary rounded-lg z-1 flex flex-col gap-4'
       >
         {editing === "true" ? (
           <div className='flex flex-col p-2 gap-4'>
