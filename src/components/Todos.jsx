@@ -339,6 +339,8 @@ useEffect(() => {
         <>
           <div className='flex items-center  w-full  gap-2'>
             <button
+              role='button'
+              aria-label='Add new activity'
               onClick={() => {
                 setShowModal(true);
                 document.body.style.overflow = "hidden";
@@ -461,12 +463,16 @@ useEffect(() => {
                 </div>
                 <div className='flex gap-2'>
                   <button
+                    role='button'
+                    aria-label='Add Activity'
                     onClick={handleAddNewActivity}
                     className='bg-button-bg hover:bg-button-hover  text-text-primary font-bold px-4 py-2 rounded-lg'
                   >
                     Add Activity
                   </button>
                   <button
+                    role='button'
+                    aria-label='Cancel add activity'
                     onClick={() => {
                       setShowModal(false);
                       document.body.style.overflow = "auto";
@@ -513,6 +519,8 @@ useEffect(() => {
 
                     {todo.completed ? (
                       <button
+                        role='button'
+                        aria-label='Change completion status'
                         onClick={() => handleCompleteActivity(todo.id)}
                         className={`font-bold   w-fit  hover:scale-[1.1]  hover:shadow-custom-focus border border-border rounded-lg px-4 py-2  ${
                           todo.completed
@@ -524,6 +532,8 @@ useEffect(() => {
                       </button>
                     ) : (
                       <button
+                        role='button'
+                        aria-label='Change completion status'
                         onClick={() => handleCompleteActivity(todo.id)}
                         className={`font-bold   w-fit  hover:scale-[1.1]  border hover:shadow-custom-focus border-border rounded-lg px-4 py-2  ${
                           todo.completed
@@ -540,6 +550,8 @@ useEffect(() => {
             </ul>
             <div className='flex justify-center items-center gap-4'>
               <button
+                role='button'
+                aria-label='Go to first list page'
                 onClick={() => {
                   handleFirstPage(), handleFadePrevButton();
                 }}
@@ -556,6 +568,8 @@ useEffect(() => {
                 <i className='fa-solid fa-angles-left'></i>{" "}
               </button>
               <button
+                role='button'
+                aria-label='Go to previous list page'
                 onClick={() => {
                   handlePrevPage(), handleFadePrevButton();
                 }}
@@ -576,6 +590,8 @@ useEffect(() => {
               </span>
 
               <button
+                role='button'
+                aria-label='Go to next list page'
                 onClick={() => {
                   handleNextPage(), handleFadeNextButton();
                 }}
@@ -594,6 +610,8 @@ useEffect(() => {
               </button>
 
               <button
+                role='button'
+                aria-label='Go to last list page'
                 onClick={() => {
                   handleLastPage(), handleFadeNextButton();
                 }}

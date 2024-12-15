@@ -8,7 +8,7 @@ const ErrorTest = () => {
       <div className='flex mt-20 flex-col items-center w-fit justify-center text-center'>
         <img
           src={powerpuffGirlsImage}
-          alt='Error Boundary Test Page Image'
+          alt='Error Boundary Page Image'
           className='h-40'
         />
         <div className='flex flex-col mt-5  max-w-[80%] gap-2 items-center justify-center'>
