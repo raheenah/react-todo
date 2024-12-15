@@ -493,7 +493,7 @@ useEffect(() => {
               Add New Activity
             </button>
           </div> */}
-          <div className='shadow-custom-todo rounded-lg border p-8 flex flex-col gap-8 w-full'>
+          <div className='shadow-custom-todo rounded-lg  p-8 flex flex-col gap-8 w-full'>
             <ul
               //   className='flex border-border border py-4 px-2 flex-col sm:flex-row sm:flex-wrap sm:justify-center gap-4 w-full'
               className='grid  gap-8 w-full'
