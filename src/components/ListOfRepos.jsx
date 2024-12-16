@@ -10,7 +10,7 @@ const ReposSection = ({ repos, currentPage, totalRepos, onPageChange }) => {
     const fetchRepoDetails = async () => {
       for (let repo of repos) {
         try {
-          // Fetch detailed information for each repository
+
           const [repoData, commitsData, languagesData, creationDate] =
             await Promise.all([
                 axios.get(`https://api.github.com/repos/${repo.full_name}`
@@ -27,7 +27,8 @@ const ReposSection = ({ repos, currentPage, totalRepos, onPageChange }) => {
                     Authorization: `token ${token}`,
                   },
                 }
-              ), // Commits data
+              ), 
+              
               axios.get(
                 `https://api.github.com/repos/${repo.full_name}/languages`,
                 {
@@ -46,7 +47,7 @@ const ReposSection = ({ repos, currentPage, totalRepos, onPageChange }) => {
               ),
             ]);
 
-          // Set the repo details with additional data
+
           setRepoDetails((prevState) => ({
             ...prevState,
             [repo.id]: {
@@ -83,7 +84,7 @@ const ReposSection = ({ repos, currentPage, totalRepos, onPageChange }) => {
         })}
       </ul>
 
-      {/* Pagination */}
+
       <div className='mt-4 flex justify-center space-x-2'>
         {[...Array(Math.ceil(totalRepos / 5))].map((_, index) => (
           <button

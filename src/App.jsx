@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Suspense } from "react";
 import Loader from "./components/Loader";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import ErrorBoundary from "./components/ErrorBoundary";
 // import Home from "./pages/Home";
 // import ErrorTest from "./pages/ErrorBoundary";
 // import GitHubProfile from "./pages/GitHubProfile";
@@ -32,18 +33,20 @@ function App() {
   return (
     <div>
       <Router>
-        <Suspense fallback={<Loader />}>
-          <NavBar />
-          <Routes>
-            <Route path='/' element={<Home />} >
-              <Route index element={<Todos/>}/>
-              <Route path='/todo/:id' element={<TodoDetailsPage />} />
-            </Route>
-            <Route path='/error-boundry-page' element={<ErrorTest />} />
-            <Route path='*' element={<NotFoundPage />} />
-          </Routes>
-          <Footer />
-        </Suspense>
+        <ErrorBoundary fallback={ <ErrorTest/>}>
+          <Suspense fallback={<Loader />}>
+            <NavBar />
+            <Routes>
+              <Route path='/' element={<Home />}>
+                <Route index element={<Todos />} />
+                <Route path='/todo/:id' element={<TodoDetailsPage />} />
+              </Route>
+              <Route path='/error-boundry-page' element={<ErrorTest />} />
+              <Route path='*' element={<NotFoundPage />} />
+            </Routes>
+            <Footer />
+          </Suspense>
+        </ErrorBoundary>
       </Router>
     </div>
   );

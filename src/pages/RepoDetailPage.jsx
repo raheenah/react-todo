@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 
 const RepoDetailPage = () => {
-  const { repoName } = useParams(); // Get repo name from URL
+  const { repoName } = useParams(); 
   const [repoData, setRepoData] = useState(null);
   const [loading, setLoading] = useState(true);
 

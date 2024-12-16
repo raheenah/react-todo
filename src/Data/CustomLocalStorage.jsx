@@ -43,7 +43,7 @@ export default class CustomLocalStorage {
         const updatedTodos = todos.map((todo) => {
           if (todo.id === updatedTodo) {
             // console.log("Found todo to update:", todo);
-            const updatingTodo = { ...todo, completed: !todo.completed }; // Toggle status
+            const updatingTodo = { ...todo, completed: !todo.completed }; 
 
             // console.log("new status", updatingTodo.completed);
             // console.log("updatedtodo", updatingTodo)

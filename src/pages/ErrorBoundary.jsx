@@ -1,5 +1,4 @@
-import React from "react";
-import powerpuffGirlsImage from "../assets/pngaaa.com-257756.png"; 
+import powerpuffGirlsImage from "../assets/pngaaa.com-257756.png";
 import { NavLink } from "react-router-dom";
 
 const ErrorTest = () => {

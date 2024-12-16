@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import axios from "axios";
 
 const ProfileSection = ({ profile }) => {
   const [readmeLinks, setReadmeLinks] = useState([]);
+  const [isPending, startTransition] = useTransition();
   const formatDate = (isoString) => {
     const date = new Date(isoString);
     const options = {
@@ -51,54 +52,56 @@ const ProfileSection = ({ profile }) => {
 
   useEffect(() => {
     if (profile?.login) {
-      fetchReadme(profile.login);
+      startTransition(() => {
+        fetchReadme(profile.login);
+      });
     }
   }, [profile?.login]);
 
   return (
-      <div className='flex flex-col w-full mx-auto items-center mt-20 lg:max-w-[80%] py-4 gap-2 text-center  shadow-custom-todo rounded-lg px-2  justify-center'>
-        <img
-          src={profile.avatar_url}
-          alt={`${profile.name}'s Profile Picture`}
-          className='w-32 h-32 rounded-full '
-        />
+    <div className='flex flex-col w-full mx-auto items-center mt-20 lg:max-w-[80%] py-4 gap-2 text-center  shadow-custom-todo rounded-lg px-2  justify-center'>
+      <img
+        src={profile.avatar_url}
+        alt={`${profile.name}'s Profile Picture`}
+        className='w-32 h-32 rounded-full '
+      />
 
-        <div className='flex flex-col gap-2'>
-          <h2 className='text-2xl font-bold underline'>
-            {profile.name} - ALT/SOE/024/1339
-          </h2>
-          <p className=''>{profile.bio}</p>
+      <div className='flex flex-col gap-2'>
+        <h2 className='text-2xl font-bold underline'>
+          {profile.name} - ALT/SOE/024/1339
+        </h2>
+        <p className=''>{profile.bio}</p>
 
-          <div className='flex gap-2 justify-center'>
-            <span className='material-symbols-outlined'>group</span>
-            <div className='flex gap-2'>
-              <p>{profile.followers} followers</p>
-              <p>{profile.following} following</p>
-            </div>
+        <div className='flex gap-2 justify-center'>
+          <span className='material-symbols-outlined'>group</span>
+          <div className='flex gap-2'>
+            <p>{profile.followers} followers</p>
+            <p>{profile.following} following</p>
           </div>
-
-          <p>Last Activity: {formatDate(profile.updated_at)}</p>
-
-          {readmeLinks.length > 0 ? (
-            <ul className='flex gap-4 justify-center'>
-              {readmeLinks.map((link, index) => (
-                <li key={index}>
-                  <a
-                    href={link.url}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    className='hover:underline text-button-bg hover:text-button-hover'
-                  >
-                    {link.text}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>No links found in README.</p>
-          )}
         </div>
+
+        <p>Last Activity: {formatDate(profile.updated_at)}</p>
+
+        {readmeLinks.length > 0 ? (
+          <ul className='flex gap-4 justify-center'>
+            {readmeLinks.map((link, index) => (
+              <li key={index}>
+                <a
+                  href={link.url}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='hover:underline text-button-bg hover:text-button-hover'
+                >
+                  {link.text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No links found in README.</p>
+        )}
       </div>
+    </div>
   );
 };
 

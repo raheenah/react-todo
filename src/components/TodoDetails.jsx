@@ -90,7 +90,7 @@ const TodoDetails = () => {
     };
   
     const cancelEditing = () => {
-      setEditedTodoId(null);
+      // setEditedTodoId(null);
       // setEditedTitle("");
       setEditing(false);
     };
@@ -98,7 +98,7 @@ const TodoDetails = () => {
   return (
     <div className='bg-background  mx-auto flex flex-col items-center justify-center py-20'>
       <div
-        // id='detailsCard'
+
         className='shadow-custom-hover w-96  mx-auto  bg-primary py-2 px-4  max-w-[70%] text-text-primary rounded-lg z-1 flex flex-col gap-4'
       >
         {editing === "true" ? (

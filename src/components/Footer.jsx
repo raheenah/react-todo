@@ -28,7 +28,7 @@ const Footer = () => {
       icon: "fa-brands fa-github",
       link: "https://www.github.com/raheenah",
       // icon: "<i className="fa- brands fa - instagram"></i>",
-      username: "Raheenat Mohammed",
+      username: "Raheenah",
     },
   ];
 
