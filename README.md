@@ -47,7 +47,7 @@ For more details or to contribute to the project, visit the GitHub repository:
 
 ## Collaborators
 
-- **Raheenat Mohammed**:Designer,  Developer and Creator - [GitHub Profile](https://github.com/raheenah)
+- **Raheenat Mohammed**: Designer,  Developer and Creator - [GitHub Profile](https://github.com/raheenah)
 
 ## Acknowledgments
 
