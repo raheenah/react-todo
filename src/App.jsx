@@ -37,6 +37,7 @@ function App() {
           <Suspense fallback={<Loader />}>
             <NavBar />
             <Routes>
+
               <Route path='/' element={<Home />}>
                 <Route index element={<Todos />} />
                 <Route path='/todo/:id' element={<TodoDetailsPage />} />
