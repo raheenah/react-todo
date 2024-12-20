@@ -55,6 +55,7 @@ const TodosList = () => {
     }
   }, []);
   useEffect(() => {
+// throw new Error("An error occured")    
     fetchTodos();
   }, [fetchTodos]);
 

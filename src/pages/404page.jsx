@@ -15,7 +15,7 @@ const NotFound = () => {
               to='/'
               className=' text-button-bg hover:text-button-hover hover:underline'
             >
-              Go back to Home
+              Go back Home
             </NavLink>
             &nbsp;or use the navigation menu to find what you need.
           </p>

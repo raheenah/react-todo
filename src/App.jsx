@@ -16,8 +16,8 @@ const TodoDetailsPage = React.lazy(() =>
 const NotFoundPage = React.lazy(() =>
   delay(1000).then(() => import("./pages/404page"))
 );
-const ErrorTest = React.lazy(() =>
-  delay(1000).then(() => import("./pages/ErrorBoundary"))
+const TestErrBoundary = React.lazy(() =>
+  delay(1000).then(() => import("./pages/TestErrBoundary"))
 );
 const NavBar = React.lazy(() =>
   delay(1000).then(() => import("./components/NavBar"))
@@ -33,7 +33,7 @@ function App() {
   return (
     <div>
       <Router>
-        <ErrorBoundary fallback={ <ErrorTest/>}>
+        <ErrorBoundary >
           <Suspense fallback={<Loader />}>
             <NavBar />
             <Routes>
@@ -42,7 +42,7 @@ function App() {
                 <Route index element={<Todos />} />
                 <Route path='/todo/:id' element={<TodoDetailsPage />} />
               </Route>
-              <Route path='/error-boundry-page' element={<ErrorTest />} />
+              <Route path='/error-boundry-page' element={<TestErrBoundary />} />
               <Route path='*' element={<NotFoundPage />} />
             </Routes>
             <Footer />

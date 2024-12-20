@@ -29,11 +29,12 @@ const ErrorTest = () => {
               to='/'
               className=' text-button-bg hover:text-button-hover hover:underline'
             >
-              Go to Home
+              Go Home
             </NavLink>
           </div>
         </div>
       </div>
+      
     </div>
   );
 };
