@@ -1,7 +1,7 @@
 import { useEffect, useState, useTransition } from "react";
 import axios from "axios";
 
-const ProfileSection = ({ profile }) => {
+const ProfileSection = ({ profile }: Record<string, string>) => {
   const [readmeLinks, setReadmeLinks] = useState([]);
   const [isPending, startTransition] = useTransition();
   const formatDate = (isoString) => {
@@ -26,7 +26,7 @@ const ProfileSection = ({ profile }) => {
             Accept: "application/vnd.github.v3+json",
             Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
           },
-        }
+        },
       );
 
       //  console.log("README Response Data:", response.data);
@@ -59,22 +59,22 @@ const ProfileSection = ({ profile }) => {
   }, [profile?.login]);
 
   return (
-    <div className='flex flex-col w-full mx-auto items-center mt-20 lg:max-w-[80%] py-4 gap-2 text-center  shadow-custom-todo rounded-lg px-2  justify-center'>
+    <div className="flex flex-col w-full mx-auto items-center mt-20 lg:max-w-[80%] py-4 gap-2 text-center  shadow-custom-todo rounded-lg px-2  justify-center">
       <img
         src={profile.avatar_url}
         alt={`${profile.name}'s Profile Picture`}
-        className='w-32 h-32 rounded-full '
+        className="w-32 h-32 rounded-full "
       />
 
-      <div className='flex flex-col gap-2'>
-        <h2 className='text-2xl font-bold underline'>
+      <div className="flex flex-col gap-2">
+        <h2 className="text-2xl font-bold underline">
           {profile.name} - ALT/SOE/024/1339
         </h2>
-        <p className=''>{profile.bio}</p>
+        <p className="">{profile.bio}</p>
 
-        <div className='flex gap-2 justify-center'>
-          <span className='material-symbols-outlined'>group</span>
-          <div className='flex gap-2'>
+        <div className="flex gap-2 justify-center">
+          <span className="material-symbols-outlined">group</span>
+          <div className="flex gap-2">
             <p>{profile.followers} followers</p>
             <p>{profile.following} following</p>
           </div>
@@ -83,14 +83,14 @@ const ProfileSection = ({ profile }) => {
         <p>Last Activity: {formatDate(profile.updated_at)}</p>
 
         {readmeLinks.length > 0 ? (
-          <ul className='flex gap-4 justify-center'>
+          <ul className="flex gap-4 justify-center">
             {readmeLinks.map((link, index) => (
               <li key={index}>
                 <a
                   href={link.url}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='hover:underline text-button-bg hover:text-button-hover'
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:underline text-button-bg hover:text-button-hover"
                 >
                   {link.text}
                 </a>

@@ -2,7 +2,19 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Token from "./token";
 
-const ReposSection = ({ repos, currentPage, totalRepos, onPageChange }) => {
+interface ReposSectionProps {
+  repos: any;
+  currentPage: any;
+  totalRepos: any;
+  onPageChange: any;
+}
+
+const ReposSection = ({
+  repos,
+  currentPage,
+  totalRepos,
+  onPageChange,
+}: ReposSectionProps) => {
   const [repoDetails, setRepoDetails] = useState({});
   const token = "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";
 
@@ -10,32 +22,32 @@ const ReposSection = ({ repos, currentPage, totalRepos, onPageChange }) => {
     const fetchRepoDetails = async () => {
       for (let repo of repos) {
         try {
-
           const [repoData, commitsData, languagesData, creationDate] =
             await Promise.all([
-                axios.get(`https://api.github.com/repos/${repo.full_name}`
+              axios.get(
+                `https://api.github.com/repos/${repo.full_name}`,
                 //     , {
                 // headers: {
                 //   Authorization: `token ${token}`,
                 // },
                 //     }
-                ), // Repo details
+              ), // Repo details
               axios.get(
                 `https://api.github.com/repos/${repo.full_name}/commits`,
                 {
                   headers: {
                     Authorization: `token ${token}`,
                   },
-                }
-              ), 
-              
+                },
+              ),
+
               axios.get(
                 `https://api.github.com/repos/${repo.full_name}/languages`,
                 {
                   headers: {
                     Authorization: `token ${token}`,
                   },
-                }
+                },
               ),
               axios.get(
                 `https://api.github.com/repos/${repo.full_name}/created_at`,
@@ -43,10 +55,9 @@ const ReposSection = ({ repos, currentPage, totalRepos, onPageChange }) => {
                   headers: {
                     Authorization: `token ${token}`,
                   },
-                }
+                },
               ),
             ]);
-
 
           setRepoDetails((prevState) => ({
             ...prevState,
@@ -67,15 +78,15 @@ const ReposSection = ({ repos, currentPage, totalRepos, onPageChange }) => {
   }, [repos]);
 
   return (
-    <div className='mt-8 bg-yellow-300'>
-      <h3 className='text-xl font-semibold'>Repositories</h3>
-      <ul className='mt-4'>
+    <div className="mt-8 bg-yellow-300">
+      <h3 className="text-xl font-semibold">Repositories</h3>
+      <ul className="mt-4">
         {repos.map((repo) => {
           const details = repoDetails[repo.id];
 
           return (
-            <li key={repo.id} className='py-2'>
-              <h4 className='font-bold text-blue-500'>{repo.name}</h4>
+            <li key={repo.id} className="py-2">
+              <h4 className="font-bold text-blue-500">{repo.name}</h4>
               <p>{details?.description || "No description available."}</p>
               <p>Commits: {details?.commitsCount || "Loading..."}</p>
               <p>Languages: {details?.languages?.join(", ") || "Loading..."}</p>
@@ -84,8 +95,7 @@ const ReposSection = ({ repos, currentPage, totalRepos, onPageChange }) => {
         })}
       </ul>
 
-
-      <div className='mt-4 flex justify-center space-x-2'>
+      <div className="mt-4 flex justify-center space-x-2">
         {[...Array(Math.ceil(totalRepos / 5))].map((_, index) => (
           <button
             key={index}
